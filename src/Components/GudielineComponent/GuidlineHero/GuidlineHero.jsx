@@ -1,72 +1,92 @@
-import t from "../../../assets/guidline/Group 12092.svg";
-import g from "../../../assets/guidline/ec69a01b-f80b-446a-bc40-5506d36319d0 1.svg";
 const GuidlineHero = () => {
   return (
     <div>
-      <h1 className="font-semibold text-[42px] text-center mt-10">Guideline</h1>
+      <div className="relative lg:bg-[url(/src/bgimages/jebg.png)] bg-contain	 bg-center bg-no-repeat">
+        <div className="lg:h-[1000px]">
+          <div className="lg:mx-[40px] md:mx-[10px] mx-[10px]">
+          <h1 className="lg:text-[38px] text-[#00486D] md:text-[35px] text-[30px] font-semibold text-center lg:my-[60px] my-[20px] my-[40px]">
+          What we recommend to the Job Seekers!
+                </h1>
+         <div className="flex justify-center">
+         <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 lg:gap-y-[45px] md:gap-y-[35px] gap-y-[25px] md:gap-x-[30px]">
+              <div className="lg:w-[391px] lg:h-[240px] w-[300px]  bg-white rounded rounded-[5px] shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+                <div className="px-5 py-5">
+                  <p className="lg:text-[20px] text-[#212427] md:text-[18px] text-[15px] font-semibold">
+                    Download the Bringin App
+                  </p>
+                  <p className="lg:text-[16px] text-[#212427] text-opacity-70 md:text-[14px] text-[12px] font-medium mt-2">
+                    The first step for a job seeker is to download the Bringin -
+                    Instant Hiring App from the App Store or Google Play Store.
+                  </p>
+                </div>
+              </div>
+              <div className="lg:w-[391px] lg:h-[240px] w-[300px]  bg-white rounded rounded-[5px] shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+                <div className="px-5 py-5">
+                  <p className="lg:text-[20px] text-[#212427] md:text-[18px] text-[15px] font-semibold">
+                    Creating a Profile
+                  </p>
+                  <p className="lg:text-[16px] text-[#212427] text-opacity-70 md:text-[14px] text-[12px] font-medium mt-2">
+                    After downloading the app, job seekers must create a profile
+                    with personal and professional information, including name,
+                    contact details, work history, education, and skills.
+                  </p>
+                </div>
+              </div>
 
-      <div className="hero min-h-screen ">
-        <div className="hero-content flex-col lg:flex-row-reverse">
-          <img
-            src={g}
-            className="lg:w-[604px] md:w-[604px] lg:h-[577px] md:h-[557px] w-[350px] h-[400px] rounded-lg  lg:mb-20 md:mb-20 mb-5"
-          />
-          <div className="">
-            <h1 className="lg:text-[42px] md:text-[35px] text-[30px] font-semibold my-10 lg:text-start md:text-center text-center">
-              Advise for Job Seekers
-            </h1>
-
-            <div>
-              <div className="flex gap-5 pb-5 mt-2  ">
-                <img src={t} className="w-[17px] h-[16px] rounded mt-2" />
-                <p className="text-[20px] text-[#646668] ">
-                  <span className="font-medium text-black"> Download the Bringin App</span>{" "}
-                  <br></br>
-                  The first step for a job seeker is to download the Bringin App
-                  from the App Store or Google Play Store.
-                </p>
+              <div className="lg:w-[391px] lg:h-[240px] w-[300px]  bg-white rounded rounded-[5px] shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+                <div className="px-5 py-5">
+                  <p className="lg:text-[20px] text-[#212427] md:text-[18px] text-[15px] font-semibold">
+                    Get AI Matching Jobs
+                  </p>
+                  <p className="lg:text-[16px] text-[#212427] text-opacity-70 md:text-[14px] text-[12px] font-medium mt-2">
+                    Once a profile is created, job seekers can directly explore
+                    relevant job openings through the app. By utilizing AI, the
+                    platform efficiently filters and presents jobs that match
+                    candidates' qualifications and experience, simplifying their
+                    job search.
+                  </p>
+                </div>
               </div>
-              <div className="flex gap-5 pb-5 mt-2  ">
-                <img src={t} className="w-[17px] h-[16px] rounded mt-2" />
-                <p className="text-[20px] text-[#646668]">
-                  <span className="font-medium text-black"> Create a Profile</span>{" "}
-                  <br></br>
-                  Once the app is downloaded, the job seeker needs to create a
-                  profile with their personal and professional details. This
-                  includes their name, contact information, work experience,
-                  educational qualifications, and skills.
-                </p>
+              <div className="lg:w-[391px] lg:h-[240px] w-[300px]  bg-white rounded rounded-[5px] shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+                <div className="px-5 py-5">
+                  <p className="lg:text-[20px] text-[#212427] md:text-[18px] text-[15px] font-semibold">
+                    Chat Directly with Recruiters
+                  </p>
+                  <p className="lg:text-[16px] text-[#212427] text-opacity-70 md:text-[14px] text-[12px] font-medium mt-2">
+                  Job seekers can engage in direct chat communication with recruiters using our app. They have the capability to submit their resumes  directly to the appropriate recruiters. This platform also offers the potential for candidates to secure instant hiring opportunities.
+                  </p>
+                </div>
               </div>
-              <div className="flex gap-5 pb-5 mt-2  ">
-                <img src={t} className="w-[17px] h-[16px] rounded mt-2" />
-                <p className="text-[20px] text-[#646668]">
-                  <span className="font-medium text-black"> Get AI Matching Jobs</span>{" "}
-                  <br></br>
-                  After creating a profile, job seekers can browse through
-                  available job openings on the app directly according to their
-                  functional areas . The app uses AI technology to filter and
-                  segregate expected job based on their qualifications and
-                  experience, making it easier for job seekers to find the right
-                  job.
-                </p>
+              <div className="lg:w-[391px] lg:h-[240px] w-[300px]  bg-white rounded rounded-[5px] shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+                <div className="px-5 py-5">
+                  <p className="lg:text-[20px] text-[#212427] md:text-[18px] text-[15px] font-semibold">
+                    Attend Interviews from Home
+                  </p>
+                  <p className="lg:text-[16px] text-[#212427] text-opacity-70 md:text-[14px] text-[12px] font-medium mt-2">
+                    A recruiter can conduct instant interviews through
+                    text-based chat and built-in video calls. The app offers a
+                    convenient and streamlined communication channel for job
+                    seekers and recruiters, effectively saving them time and
+                    effort.
+                  </p>
+                </div>
               </div>
-              <div className="flex gap-5 pb-5 mt-2  ">
-                <img src={t} className="w-[17px] h-[16px] rounded mt-2" />
-                <p className="text-[20px] text-[#646668]">
-                  <span className="font-medium text-black">
-                    {" "}
-                    Chat Directly with the Recruiters
-                  </span>{" "}
-                  <br></br>
-                  Job seekers can chat directly with the recruiters through the
-                  in-built chat app, they can also send their resumes and cover
-                  letters to the right recruiters & get hired instantly.
-                </p>
+              <div className="lg:w-[391px] lg:h-[240px] w-[300px]  bg-white rounded rounded-[5px] shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+                <div className="px-5 py-5">
+                  <p className="lg:text-[20px] text-[#212427] md:text-[18px] text-[15px] font-semibold">
+                    Get Hired Instantly
+                  </p>
+                  <p className="lg:text-[16px] text-[#212427] text-opacity-70 md:text-[14px] text-[12px] font-medium mt-2">
+                    After a successful chat and video call interview, if a
+                    candidate is selected by the recruiter, they can be
+                    instantly hired through the Bringin app platform.
+                  </p>
+                </div>
               </div>
             </div>
+         </div>
           </div>
         </div>
-        <div></div>
       </div>
     </div>
   );

@@ -44,20 +44,20 @@ const TopCities = () => {
               {cities.length > 0 && cities.map((b) => 
               <div key={b._id}>
                   <Link to={`/candidate/${b._id}`}>
-                  <div className="card  lg:w-[200px] md:w-[200px] w-[160px] lg:h-[200px] md:h-[200px] h-[145px] bg-base-100 shadow-[0_8px_60px_rgb(0,0,0,0.1)] rounded rounded-[35px] ">
-                    <div className="mx-auto">
-                      <img
-                        alt=""
-                        src={b.img}
-                        className="mt-[15px]  w-[150px] lg:w-[175px] md:w-[175px]  lg:h-[127px] rounded rounded-[20px]"
-                      ></img>
-                    </div>
-                    <div className="mt-3 items-center text-center">
-                      <h2 className=" lg:text-[20px] md:text-[20px] text-[14px]">
-                      {b.citiesName}
-                      </h2>
-                    </div>
-                  </div>
+                  <div className="">
+                        <div className="mx-auto">
+                          <img
+                            alt="bringin image"
+                            src={b.img}
+                            className="mt-[15px]  w-[150px] lg:w-[200px] md:w-[175px]  lg:h-[175px] rounded rounded-[20px] "
+                          ></img>
+                        </div>
+                        <div className="mt-3 items-center text-center">
+                          <h2 className=" lg:text-[22px] md:text-[20px] text-[14px] text-[#023C5B] font-semibold">
+                            {b.citiesName}
+                          </h2>
+                        </div>
+                      </div>
                 </Link>
               </div>
               )}
@@ -66,7 +66,7 @@ const TopCities = () => {
                 <div className="card lg:w-[200px] md:w-[200px] w-[160px] lg:h-[200px] md:h-[200px] h-[145px] bg-base-100 shadow-[0_8px_60px_rgb(0,0,0,0.1)] rounded rounded-[35px] ">
                   <div className="mx-auto">
                     <img
-                      alt=""
+                      alt="bringin image"
                       src={ca}
                       className="mt-[15px]  w-[150px] lg:w-[175px] md:w-[175px]  lg:h-[127px] rounded  rounded-[20px]"
                     ></img>
@@ -82,7 +82,7 @@ const TopCities = () => {
                 <div className="card lg:w-[200px] md:w-[200px] w-[160px] lg:h-[200px] md:h-[200px] h-[145px] bg-base-100 shadow-[0_8px_60px_rgb(0,0,0,0.1)] rounded rounded-[35px] ">
                   <div className="mx-auto">
                     <img
-                      alt=""
+                      alt="bringin image"
                       src={ka}
                       className="mt-[15px]  w-[150px] lg:w-[175px] md:w-[175px]  lg:h-[127px] rounded  rounded-[20px]"
                     ></img>
@@ -99,7 +99,7 @@ const TopCities = () => {
                 <div className="card lg:w-[200px] md:w-[200px] w-[160px] lg:h-[200px] md:h-[200px] h-[145px] bg-base-100 shadow-[0_8px_60px_rgb(0,0,0,0.1)] rounded rounded-[35px] ">
                   <div className="mx-auto">
                     <img
-                      alt=""
+                      alt="bringin image"
                       src={ra}
                       className="mt-[15px]  w-[150px] lg:w-[175px] md:w-[175px]  lg:h-[127px] rounded  rounded-[20px]"
                     ></img>
@@ -115,7 +115,7 @@ const TopCities = () => {
                 <div className="card lg:w-[200px] md:w-[200px] w-[160px] lg:h-[200px] md:h-[200px] h-[145px] bg-base-100 shadow-[0_8px_60px_rgb(0,0,0,0.1)] rounded rounded-[35px] ">
                   <div className="mx-auto">
                     <img
-                      alt=""
+                      alt="bringin image"
                       src={my}
                       className="mt-[15px]  w-[150px] lg:w-[175px] md:w-[175px]  lg:h-[127px] rounded  rounded-[20px]"
                     ></img>
@@ -131,7 +131,7 @@ const TopCities = () => {
                 <div className="card lg:w-[200px] md:w-[200px] w-[160px] lg:h-[200px] md:h-[200px] h-[145px] bg-base-100 shadow-[0_8px_60px_rgb(0,0,0,0.1)] rounded rounded-[35px] ">
                   <div className="mx-auto">
                     <img
-                      alt=""
+                      alt="bringin image"
                       src={sy}
                       className="mt-[15px]  w-[150px] lg:w-[175px] md:w-[175px]  lg:h-[127px] rounded  rounded-[20px]"
                     ></img>
@@ -147,7 +147,7 @@ const TopCities = () => {
                 <div className="card lg:w-[200px] md:w-[200px] w-[160px] lg:h-[200px] md:h-[200px] h-[145px] bg-base-100 shadow-[0_8px_60px_rgb(0,0,0,0.1)] rounded rounded-[35px] ">
                   <div className="mx-auto">
                     <img
-                      alt=""
+                      alt="bringin image"
                       src={ba}
                       className="mt-[15px]  w-[150px] lg:w-[175px] md:w-[175px]  lg:h-[127px] rounded  rounded-[20px]"
                     ></img>
@@ -163,7 +163,7 @@ const TopCities = () => {
                 <div className="card lg:w-[200px] md:w-[200px] w-[160px] lg:h-[200px] md:h-[200px] h-[145px] bg-base-100 shadow-[0_8px_60px_rgb(0,0,0,0.1)] rounded rounded-[35px]">
                   <div className="mx-auto">
                     <img
-                      alt=""
+                      alt="bringin image"
                       src={ras}
                       className="mt-[15px]  w-[150px] lg:w-[175px] md:w-[175px]  lg:h-[127px] rounded  rounded-[20px]"
                     ></img>

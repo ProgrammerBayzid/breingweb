@@ -5,16 +5,16 @@ const PrivacyPolicy = () => {
   useTitle('Privacy Policy - Bringin')
 
   return (
-    <div className="my-20 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl">
+    <div className="my-20 lg:mx-[40px] md:mx-[10px] mx-[10px]">
       <div className="lg:mx-12">
-        <h1 className="text-[40px] text-center font-semibold mb-7">
+        <h1 className="lg:text-[40px] md:text-[30px] text-[25px] text-[#023C5B] text-center font-semibold mb-7">
           Privacy Policy
         </h1>
 
         <p className=" my-7  px-5 font-medium text-[21px] text-[#333333]">
         Before accessing or using the Platform, please ensure that you have read and understood our Privacy Policy.
         </p>
-        <p className="font-semibold my-7 px-5 text-[23px] text-[#333333]">
+        <p className="font-semibold my-5 px-5 text-[23px] text-[#333333]">
         1. Information We Collect{" "}
         </p>
         <div className="lg:px-5 px-5">
@@ -27,7 +27,7 @@ const PrivacyPolicy = () => {
               We collect all the information you provide while creating your account, as well as other information that your browser sends whenever you visit our Platform. This information may include your computer's Internet Protocol (IP) address, browser type, browser version, the pages of our Platform that you visit, the time and date of your visit, the time spent on those pages, and other statistics.
               </p>
             </div>
-            <div className="mb-7">
+            <div className="mb-5">
               <p className="font-semibold text-[21px]">
               B) Information We Collect Through Mobile App Permission:              </p>
               <p className="text-[#6A6A6A] text-[21px] font-medium">
@@ -35,7 +35,7 @@ const PrivacyPolicy = () => {
               </p>
             </div>
 
-            <div className="mb-7">
+            <div className="mb-5">
               <p className="font-semibold text-[21px]">
                 Location:{" "}
                 <span className="text-[#6A6A6A] text-[21px] font-medium">
@@ -43,7 +43,7 @@ const PrivacyPolicy = () => {
                 </span>
               </p>
             </div>
-            <div className="mb-7">
+            <div className="mb-5">
               <p className="font-semibold text-[21px]">
                 Camera:{" "}
                 <span className="text-[#6A6A6A] text-[21px] font-medium">
@@ -52,25 +52,25 @@ const PrivacyPolicy = () => {
               </p>
             </div>
 
-            <div className="mb-7">
+            <div className="mb-5">
               <p className="font-semibold text-[21px]">
-              Microphone:
+              Microphone:{" "}
                 <span className="text-[#6A6A6A] text-[21px] font-medium">
                 If you allow us, this enables you to communicate with recruiters/candidates.
                 </span>
               </p>
             </div>
-            <div className="mb-7">
+            <div className="mb-5">
               <p className="font-semibold text-[21px]">
-                Contacts:
+                Contacts:{" "}
                 <span className="text-[#6A6A6A] text-[21px] font-medium">
                 If you allow us, we can help you invite your friends through SMS or WhatsApp.
                 </span>
               </p>
             </div>
-            <div className="mb-7">
+            <div className="mb-5">
               <p className="font-semibold text-[21px]">
-              Storage:
+              Storage:{" "}
                 <span className="text-[#6A6A6A] text-[21px] font-medium">
                 If you allow us, this enables you to upload your resume, profile picture, and all other documents needed for your profile.
 
@@ -89,7 +89,7 @@ const PrivacyPolicy = () => {
                 <img
                   
                   
-                  alt=""
+                  alt="bringin image"
                   src={dot}
                   className=""
                 ></img>
@@ -105,7 +105,7 @@ const PrivacyPolicy = () => {
                 <img
                   
                   
-                  alt=""
+                  alt="bringin image"
                   src={dot}
                   className=""
                 ></img>
@@ -123,7 +123,7 @@ const PrivacyPolicy = () => {
                 <img
                   
                   
-                  alt=""
+                  alt="bringin image"
                   src={dot}
                   className=""
                 ></img>
@@ -139,7 +139,7 @@ const PrivacyPolicy = () => {
                 <img
                   
                   
-                  alt=""
+                  alt="bringin image"
                   src={dot}
                   className=""
                 ></img>
@@ -154,7 +154,7 @@ const PrivacyPolicy = () => {
               <div>
                 <img
                  
-                  alt=""
+                  alt="bringin image"
                   src={dot}
                   className="mt-3 w-4"
                 ></img>
@@ -172,7 +172,7 @@ const PrivacyPolicy = () => {
                 <img
                   
                   
-                  alt=""
+                  alt="bringin image"
                   src={dot}
                   className=""
                 ></img>
@@ -188,7 +188,7 @@ const PrivacyPolicy = () => {
                 <img
                   
                   
-                  alt=""
+                  alt="bringin image"
                   src={dot}
                   className=""
                 ></img>

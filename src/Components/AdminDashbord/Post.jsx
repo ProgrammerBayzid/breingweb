@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useState, useRef } from "react";
 import JoditEditor from "jodit-react";
 import useTitle from "../../hooks/useTitle";
+import { useEffect } from "react";
 const Post = () => {
   useTitle("Blogs Post - Bringin");
   // const [isLoading, setisLoading] = useState(false)
@@ -60,6 +61,16 @@ const Post = () => {
   //   if (isLoading) {
   //     return <Spinner></Spinner>
   // }
+  const [cetagory, setCetagory] = useState([]);
+
+  useEffect(() => {
+    fetch("https://bringinserver-v1.vercel.app/cetagorys")
+      .then((res) => res.json())
+      .then((data) => {
+        setCetagory(data);
+      });
+  }, []);
+  const cetagori = cetagory;
 
   return (
     <div className="">
@@ -130,18 +141,16 @@ const Post = () => {
                 {...register("categoryName")}
                 className="select input-bordered w-full "
               >
-                <option selected>Skill</option>
-                <option>Skills & Development</option>
-                <option>Interview Tips</option>
-                <option>Salary Advice</option>
-                <option>HR Challenges</option>
-                <option>HR Stories</option>
-                <option>Skills</option>
-                <option>Graphics Design</option>
-                <option>Web Development</option>
-                <option>Information</option>
-                <option>Career</option>
-                <option>Job Seeking</option>
+                
+                {
+                  cetagori.map((ca)=>{
+                    return(
+
+                      <option key={ca._id}>{ca.categoryName}</option>
+                    )
+                  })
+                }
+              
               </select>
             </div>
 

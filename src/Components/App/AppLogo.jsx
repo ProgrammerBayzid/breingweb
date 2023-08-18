@@ -1,22 +1,25 @@
-import al from '../../assets/applogo/Group 12168.svg'
-
 const AppLogo = () => {
-    return (
-      <div className="">
-          <div className="">
-            <div className="my-10">
-              
+  return (
+    <div className="px-2">
+     <div className="flex justify-center my-24">
+        <div className="flex gap-4">
+          <a href="https://play.google.com/store/apps/details?id=com.bringin.io" target="_blank">
+            <img
+              className="lg:w-[200px] lg:h-[62px] w-[130px] h-[32px] md:w-[200px] md:h-[62px]"
+              src="/images/playstore.png"
+            />
+          </a>
 
-                <div>
-                <img src={al} />
-                </div>
-
-
-                
-            </div>
+          <a href="">
+            <img
+              className="lg:w-[200px] lg:h-[62px] w-[130px] h-[32px] md:w-[200px] md:h-[62px]"
+              src="/images/appstore.png"
+            />
+          </a>
         </div>
       </div>
-    );
+    </div>
+  );
 };
 
 export default AppLogo;

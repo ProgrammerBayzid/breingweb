@@ -1,16 +1,28 @@
-import { Outlet } from 'react-router-dom'
-import Header from '../Components/ShereComponent/Header/Footer/Header'
-import Footer from '../Components/ShereComponent/Header/Footer/Footer'
-
+import { Outlet, useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import App from "../App.css";
+import Hedline from "../Components/HomeComponent/Hedline";
+import Header from "../Components/HomeComponent/Header";
+import Footer from "../Components/HomeComponent/Footer";
 const Main = () => {
-    return (
-        <div>
-            <Header></Header>
-            <Outlet></Outlet>
-            <Footer></Footer>
+  const { pathname } = useLocation();
 
-        </div>
-    )
-}
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return (
+    <div>
+      <div className="sticky top-0 z-40">
 
-export default Main
+      <Header></Header>
+      <Hedline></Hedline>
+      </div>
+      <div id="mx">
+        <Outlet></Outlet>
+      </div>
+      <Footer></Footer>
+    </div>
+  );
+};
+
+export default Main;

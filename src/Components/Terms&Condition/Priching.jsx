@@ -1,7 +1,7 @@
 import useTitle from "../../hooks/useTitle";
 
 const Priching = () => {
-  useTitle('Terms & Condition')
+  useTitle('Priching')
 
     return (
         <div className="my-14 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl">
@@ -38,7 +38,7 @@ const Priching = () => {
                           Freemium{" "}
                           </p>
                       </th>
-                      <td className="px-6 py-4 text-[#454545] border-[#6A6A6A] border-[2px] border-[#6A6A6A] text-center lg:text-[23px] md:text-[23px]">04</td>
+                      <td className="px-6 py-4 text-[#454545] border-[#6A6A6A] border-[2px] border-[#6A6A6A] text-center lg:text-[23px] md:text-[23px]">06</td>
                       <td className="px-6 py-4 text-[#454545] border-[#6A6A6A] border-[2px] border-[#6A6A6A] text-center lg:text-[23px] md:text-[23px]">0.00 BDT</td>
                     </tr>
                     <tr className="bg-white border-b border-[#6A6A6A] dark:bg-gray-800 dark:border-gray-700">

@@ -19,7 +19,7 @@ const HowWeDo = () => {
           <img src={t} className="w-[17px] h-[16px] rounded mt-2" />
           <p className="text-[20px] text-[#646668] ">
             <span className="font-medium text-black"> Get Hired Instantly</span> <br></br>
-            After a chat & video call interview If a candidates is selected by
+            After a chat & video call interview If a candidate is selected by
             the recruiter & he/she can get hired instantly from the bringin
             platform.{" "}
           </p>
@@ -27,7 +27,7 @@ const HowWeDo = () => {
         <div className="flex gap-5 pb-5 mt-2  ">
           <img src={t} className="w-[17px] h-[16px] rounded mt-2" />
           <p className="text-[20px] text-[#646668] ">
-            <span className="font-medium text-black"> Keep your Profile Updated</span>{" "}
+            <span className="font-medium text-black"> Keep Your Profile Updated</span>{" "}
             <br></br>
             It's essential to keep your profile updated with your latest work
             experience, educational qualifications, and skills. This will help

@@ -1,86 +1,80 @@
- import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import fr from "../../../assets/blog/Frame.svg";
-import d from "../../../assets/guidline/Line 12.svg"
-import Spinner from '../../Spinner/Spinner';
+import d from "../../../assets/guidline/Line 12.svg";
+import Spinner from "../../Spinner/Spinner";
 
 const CarearAdvice = () => {
-  
   const [blogs, setBlogs] = useState([]);
 
   const [isLoding, setIsLoding] = useState(false);
 
   useEffect(() => {
-    fetch("https://bringinserver-v1.vercel.app/guidline/blogs/Career")
+    fetch("https://bringinserver-v1.vercel.app/blogs")
       .then((res) => res.json())
       .then((data) => {
         setIsLoding(true);
         setBlogs(data);
       });
   }, []);
+
+  const limit = blogs;
+
   if (isLoding === false) {
     return <Spinner></Spinner>;
   }
   return (
     <div className="mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl">
-      <div className=" bg-white shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] py-7  lg:h-[730px] mt-20 ">
+      <div className="  ">
         <div className=" ">
-          <div>
-            <h1 className="mx-auto text-[40px] font-medium mt-10 mb-20 text-center">
-              Career Advice
+          <div className="flex items-center justify-around lg:my-[80px] md:my-[60px] my-[40px]">
+            <div className="">
+              <p className="text-[#A6DEF3] hidden lg:block ">
+                ____________________________________________________
+              </p>
+            </div>
+            <h1 className=" lg:text-[38px]  md:text-[35px] text-[30px] font-medium text-center text-[#00486D]">
+              Read our articles.
             </h1>
+            <div className=" ">
+              <p className="text-[#A6DEF3] hidden lg:block ">
+                ____________________________________________________
+              </p>
+            </div>
           </div>
-          <div className=" grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl ml-5">
-          {blogs.map((post) => {
-                const { img, blogTitle, authorName, description, _id , published_date} = post;
-                return (
-                  <div
-                    key={_id}
-                    className=" w-[388px] h-[274px] bg-base-100 "
-                  >
-                    <div>
-                      <img alt="" src={img} className="rounded-xl w-[388px] " />
-                    </div>
-                    <div className="my-[16]">
-                      <Link to={`/details/${_id}`}>
-                        <h2 className="card-title">{blogTitle}</h2>
-                      </Link>
-                      <div className="flex gap-5 my-3 text-[12px] ">
-                        <p className="text-[#4D5052]">by {authorName}</p>
-                        <img alt="" className="w-[3px]" src={d} />
 
-                        <p className="text-[#4D5052]">{published_date.slice(0,8)}</p>
-                        <img className="w-[3px]" alt="" src={d} />
+          <div className="flex  justify-center">
+            <div>
+              <div className=" grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl">
+                {limit.map((post) => {
+                  const {
+                    img,
+                    blogTitle,
+                    authorName,
+                    description,
+                    _id,
+                    published_date,
+                  } = post;
+                  return (
+                    <Link key={_id} to={`/details/${_id}`}>
+                      <div className=" lg:w-[373px] lg:h-[303px] w-[300px] h-[250px] bg-[#F6F6F6]  border-t-[1px] border-[#00A0DC]">
+                        <div>
+                          <div>
+                            <img src={img} />
+                          </div>
 
-                        <p className="text-[#4D5052]">No Comments</p>
+                          <div>
+                            <p className="p-4 font-light	leading-7 text-[#177CC6] lg:text-[20px] text-[16px] ">
+                              {blogTitle}
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                      <p className="text-[#4D5052] mt-3">
-                        {description && description.length > 300 ? (
-                          <>{description.slice(0, 150) + " " + "..."}</>
-                        ) : (
-                          <span>{description}</span>
-                        )}
-                      </p>
-                      {/* dangerouslySetInnerHTML={{__html: post.details}} */}
-                      <div className="card-actions justify-start">
-                        <button className="bg-[#0077B5] w-[101px] h-[26px] text-white mt-3">
-                          <Link to={`/details/${_id}`}>
-                            <div className="flex items-center">
-                              <p> Read More</p>
-                              <img
-                                alt=""
-                                src={fr}
-                                className="w-5 mb-[22px] pr-3"
-                              />
-                            </div>
-                          </Link>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-           
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
       </div>

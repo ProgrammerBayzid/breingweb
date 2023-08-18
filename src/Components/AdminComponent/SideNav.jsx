@@ -13,19 +13,21 @@ const SideNav = () => {
       { title: <Link to='/admin/dashboard'>Dashboard</Link>, icon: <MdOutlineDashboardCustomize></MdOutlineDashboardCustomize> },
       {title: <Link to='/admin/dashboard/blogPost'>Add Blogs</Link>, icon: <ImBlog/>},
       {title: <Link to='/admin/dashboard/allblog'>All Blogs</Link>, icon: <ImBlog/>},
-      {title: <Link to='/admin/dashboard/bringin-featured'>Add Bringin Featured</Link>, icon: <MdOutlineFeaturedPlayList/>},
+      {title: <Link to='/admin/dashboard/bringinfeatured'>Add Bringin Featured</Link>, icon: <MdOutlineFeaturedPlayList/>},
       {title: <Link to='/admin/dashboard/allbringinfeatured'>All Bringin Featureds</Link>, icon: <MdOutlineFeaturedPlayList/>},
-      {title: <Link to='/admin/dashboard/influencers-opinion'>Add Influencers Opinion</Link>, icon: <SiLinuxfoundation/>},
+      {title: <Link to='/admin/dashboard/influencersopinion'>Add Influencers Opinion</Link>, icon: <SiLinuxfoundation/>},
       {title: <Link to='/admin/dashboard/allinfuencers'>All Influencers Opinions</Link>, icon: <SiLinuxfoundation/>},
       {title: <Link to='/admin/dashboard/review'>Add Review</Link>, icon:<MdPreview/>},
       {title: <Link to='/admin/dashboard/allreview'>All Reviews</Link>, icon:<MdPreview/>},
       {title: <Link to='/admin/dashboard/cities'>Add Cities</Link>, icon:<MdPreview/>},
       {title: <Link to='/admin/dashboard/allcomment'>All Comment</Link>, icon: <MdOutlineFeaturedPlayList/>},
+      {title: <Link to='/admin/dashboard/addcategory'>Add Category</Link>, icon: <MdOutlineFeaturedPlayList/>},
+      {title: <Link to='/admin/dashboard/allcategory'>All Category</Link>, icon: <MdOutlineFeaturedPlayList/>},
       
     
     ];
     return (
-        <div className="h-[1500px] App">
+        <div className="h-[4000px] App">
         <div
           className={` ${
             open ? "w-72" : "w-20 "

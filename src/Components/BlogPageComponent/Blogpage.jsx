@@ -9,7 +9,7 @@ import Vector from "../../assets/commonlogo/Vector.svg";
 import c from "../../assets/commonlogo/go.svg";
 import useTitle from "../../hooks/useTitle";
 import fr from "../../assets/blog/Frame.svg";
-import App from '../../App.css'
+import App from "../../App.css";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -24,7 +24,7 @@ const Blogpage = () => {
   const [bl, setbl] = useState([]);
   const [search, setSearch] = useState("");
   const [isLoding, setIsLoding] = useState(false);
-
+  console.log(blogs);
   useEffect(() => {
     fetch("https://bringinserver-v1.vercel.app/blogs")
       .then((res) => res.json())
@@ -57,30 +57,51 @@ const Blogpage = () => {
     setbl(filter);
   };
 
+  const [items, setItems] = useState(blogs);
+  console.log(items);
+  const [cValue, setcValue] = useState("");
+  console.log(cValue);
+  const handleClick = (value) => {
+    setcValue(value);
+  };
+
+  const applyFilters = () => {
+    let updatedList = blogs;
+    console.log(updatedList);
+
+    if (cValue) {
+      updatedList = updatedList.filter((item) => item?.categoryName == cValue);
+    }
+
+    setItems(updatedList);
+  };
+
+  useEffect(() => {
+    applyFilters();
+  }, [cValue, blogs]);
+
   if (isLoding === false) {
     return <Spinner></Spinner>;
   }
 
   return (
-    <div className="App mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl">
-      <div className="my-1">
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5 ">
+    <div className=" App">
+      <div className="my-1 lg:mx-[40px] md:mx-[10px] mx-[10px]">
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-[65px] ">
           <div className="col-span-2 mx-auto ">
             <div>
               <div className="">
-                <div className="mt-[30px] grid lg:grid-cols-4 md:grid-cols-4 grid-cols-2  gap-[5px] items-center ">
-                  {cetagori.map((ca) => {
+                <div className="mt-[30px] grid lg:grid-cols-5 md:grid-cols-4 grid-cols-2   ">
+                  {cetagor.map((ca) => {
                     return (
                       <button
                         key={ca._id}
-                        className="App button text-[#4C4F51] hover:text-[#0077B5] px-[8px] bg-[#F9F9F9] cursor-pointer hover:border-[#0077B5] border   hover:bg-[#FFFFFF] rounded-md py-[8px]"
+                        onClick={() => {
+                          handleClick(ca?.categoryName);
+                        }}
+                        className="App  button text-[#4C4F51] hover:text-[#0077B5] py-[8px] lg:w-[] md:w-[] w-[170px] lg:h-[60px] bg-[#F9F9F9]  hover:border-b-[1px] hover:border-b-[#0077B5]   border  "
                       >
-                        <p
-                          className="text-[14px]  "
-                          onClick={() => {
-                            filterBlog(ca.categoryName);
-                          }}
-                        >
+                        <p className="lg:text-[15px]  text-[12px] font-semibold">
                           {ca.categoryName}
                         </p>
                       </button>
@@ -89,187 +110,245 @@ const Blogpage = () => {
                 </div>
               </div>
             </div>
-            <div className="mt-[15px] grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-5 ">
-              {bl.map((post) => {
-                const { img, blogTitle, authorName, description, _id , published_date} = post;
-                return (
-                  <div
-                    key={_id}
-                    className="w-[388px] h-[274px] bg-base-100 mb-[225px]"
-                  >
-                    <div>
-                      <img alt="" src={img} className="rounded-xl object-cover h-[274px] w-[388px] " />
-                    </div>
-                    <div className="">
-                      <Link to={`/details/${_id}`}>
-                        <h2 className="card-title">{blogTitle}</h2>
-                      </Link>
-                      <div className="flex gap-5 my-1 text-[12px] mt-3">
-                        <p className="text-[#4D5052]  ">by {authorName}</p>
-                        <img alt="" className="w-[3px]" src={l} />
+            <div className="flex justify-center lg:mt-[30px] mt-[15px]">
+              <div className="mt-[15px] grid lg:grid-cols-1 md:grid-cols-2 grid-cols-1 gap-7 ">
+                {items.map((post) => {
+                  const {
+                    img,
+                    blogTitle,
+                    authorName,
+                    description,
+                    _id,
+                    published_date,
+                  } = post;
+                  return (
+                    <div key={_id}>
+                      <div className="lg:w-[800px] lg:h-[195px]  w-[300px] border-b-[0.7px]  border-gray">
+                        <div className="">
+                          <div className="lg:w-[800px] lg:h-[180px]  w-[300px]  ">
+                            <div className="lg:flex gap-x-[30px] ">
+                              <div className="">
+                                <img
+                                  className="object-cover w-[320px]  h-[180px]"
+                                  src={img}
+                                />
+                              </div>
+                              <div>
+                                <div>
+                                  <div className="flex gap-x-2 lg:mt-0 md:mt-0 mt-4 text-[12px] ">
+                                    <p className="text-[#4D5052]">
+                                      by {authorName}
+                                    </p>
+                                    <img
+                                      alt="bringin image"
+                                      className="w-[3px]"
+                                      src={l}
+                                    />
 
-                        <p className="text-[#4D5052]">{published_date.slice(0,8)}</p>
-                        <img className="w-[3px]" alt="" src={l} />
+                                    <p className="text-[#4D5052]">
+                                      {published_date.slice(0, 8)}
+                                    </p>
+                                    <img
+                                      className="w-[3px]"
+                                      alt="bringin image"
+                                      src={l}
+                                    />
 
-                        <p className="text-[#4D5052]">No Comments</p>
-                      </div>
-                      <p className="text-[#4D5052] mt-3">
-                        {description && description.length > 300 ? (
-                          <>{description.slice(0, 150) + " " + "..."}</>
-                        ) : (
-                          <span>{description}</span>
-                        )}
-                      </p>
-                      {/* dangerouslySetInnerHTML={{__html: post.details}} */}
-                      <div className="card-actions justify-start">
-                        <button className="bg-[#0077B5] w-[101px] h-[26px] text-white mt-3">
-                          <Link to={`/details/${_id}`}>
-                            <div className="flex items-center">
-                              <p> Read More</p>
-                              <img
-                                alt=""
-                                src={fr}
-                                className="w-5 mb-[22px] pr-3"
-                              />
+                                    <p className="text-[#4D5052]">
+                                      No Comments
+                                    </p>
+                                  </div>
+                                  <Link to={`/details/${_id}`}>
+                                    <p className="lg:text-[24px] text-[18px] text-[#177CC6] my-[7px]">
+                                      {blogTitle}
+                                    </p>
+                                  </Link>
+                                  <p className="text-[15px] text-[#212427] mb-[7px]">
+                                    {description && description.length > 100 ? (
+                                      <div className="">
+                                        <p>
+                                          {description.slice(0, 100) +
+                                            " " +
+                                            "..."}{" "}
+                                          <Link to={`/details/${_id}`}>
+                                            <span className="text-[#00679C] ">
+                                              READ MORE{" "}
+                                            </span>
+                                          </Link>
+                                        </p>
+                                      </div>
+                                    ) : (
+                                      <p>
+                                        {description}{" "}
+                                        <Link to={`/details/${_id}`}>
+                                          <span className="text-[#00679C] ">
+                                            READ MORE{" "}
+                                          </span>
+                                        </Link>
+                                      </p>
+                                    )}
+                                  </p>
+
+                                  <div className="flex items-center gap-[50px]">
+                                    <p className="text-[15px] text-[#212427] font-medium">
+                                      Interviews Tips
+                                    </p>
+                                    <div>
+                                      <div className="flex gap-x-3">
+                                        <div className="mr-1">
+                                          <a href="" target="_blank">
+                                            {" "}
+                                            <img
+                                              className="w-[18px] h-[18px]"
+                                              alt="bringin image"
+                                              src="/images/blog/bi.png"
+                                            />
+                                          </a>
+                                        </div>
+                                        <div className="pr-1">
+                                          <a href="" target="_blank">
+                                            {" "}
+                                            <img
+                                              className="w-[18px] h-[18px]"
+                                              alt=""
+                                              src="/images/blog/bt.png"
+                                            />
+                                          </a>
+                                        </div>
+                                        <div>
+                                          <a href="" target="_blank">
+                                            {" "}
+                                            <img
+                                              className="w-[18px] h-[18px]"
+                                              alt="bringin image"
+                                              src="/images/blog/bf.png"
+                                            />
+                                          </a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
-                          </Link>
-                        </button>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-            <div className="mt-[15px] grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-5">
-              {blogs.map((post) => {
-                const { img, blogTitle, authorName, description, _id, published_date } = post;
-                return (
-                  <div
-                    key={_id}
-                    className="lg:w-[388px] bg-base-100 "
-                  >
-                    <div>
-                      <img alt="" src={img} className="rounded-xl object-cover h-[274px] w-[388px] " />
-                    </div>
-                    <div className="pt-[16px]">
-                      <Link to={`/details/${_id}`}>
-                        <h2 className="card-title">{blogTitle}</h2>
-                      </Link>
-                      <div className="flex gap-5 my-1 text-[12px] mt-3">
-                        <p className="text-[#4D5052]">by {authorName}</p>
-                        <img alt="" className="w-[3px]" src={l} />
-
-                        <p className="text-[#4D5052]">{published_date.slice(0,8)}</p>
-                        <img className="w-[3px]" alt="" src={l} />
-
-                        <p className="text-[#4D5052]">No Comments</p>
-                      </div>
-                      <p className="text-[#4D5052] mt-3">
-                        {description && description.length > 300 ? (
-                          <>{description.slice(0, 150) + " " + "..."}</>
-                        ) : (
-                          <span>{description}</span>
-                        )}
-                      </p>
-                      {/* dangerouslySetInnerHTML={{__html: post.details}} */}
-                      <div className="card-actions justify-start">
-                        <button className="bg-[#0077B5] w-[101px] h-[26px] text-white  mt-3">
-                          <Link to={`/details/${_id}`}>
-                            <div className="flex items-center " >
-                              <p> Read More</p>
-                              <img
-                                alt=""
-                                src={fr}
-                                className="w-5 mb-[22px] pr-3"
-                              />
-                            </div>
-                          </Link>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
 
-          <div className="mt-[30px] lg:ml-0 md:ml-[230px]">
-            <div className="">
-              <div className="mb-[30px]">
-                <input
-                  onChange={(e) => setSearch(e.target.value)}
-                  type="text"
-                  placeholder="Search......"
-                  className="input w-[370px]  shadow-[0_8px_60px_rgb(0,0,0,0.1)] 	"
-                />
-              </div>
-              <div className="w-[373px] pb-24  shadow-[0_8px_60px_rgb(0,0,0,0.1)]  bg-white p-5">
-                <div className="border-b-[3px] w-[100px]  border-[#0077B5] ">
-                  <p className="text-[17px] font-semibold pb-[10px] ">
-                    Recent Post
-                  </p>
+          <div className="">
+            <div>
+              <div className="mt-[30px] lg:ml-0 md:ml-[230px]">
+                <div className="">
+                  <div className="mb-[30px]">
+                    <input
+                      onChange={(e) => setSearch(e.target.value)}
+                      type="text"
+                      placeholder="Search..."
+                      className="focus:outline-none  w-[365px] h-[45px] bg-[#F6F6F6] pl-10 rounded rounded-[5px]	"
+                    />
+                  </div>
+                  <div className="w-[365px] pb-24   bg-[#F6F6F6] p-5 rounded rounded-[5px]">
+                    <div className="border-b-[3px] w-[100px]  border-[#0077B5] ">
+                      <p className="text-[17px] font-semibold pb-[10px] ">
+                        Recent Post
+                      </p>
+                    </div>
+
+                    {recent
+                      .filter((re) => {
+                        return search.toLocaleLowerCase() === ""
+                          ? re
+                          : re.blogTitle.toLocaleLowerCase().includes(search);
+                      })
+                      .map((re) => (
+                        <div key={re._id} className="mt-10 flex gap-4">
+                          <div className="">
+                            <img
+                              alt="bringin image"
+                              src={re.img}
+                              className="object-cover w-[120px] h-[75px] rounded"
+                            />
+                          </div>
+                          <div className="w-50%">
+                            <Link to={`/details/${re._id}`}>
+                              <h1 className="text-[15px] font-medium text-[#212427] ">
+                                {re.blogTitle}
+                              </h1>
+                            </Link>
+                            <div className="flex gap-[1px]">
+                              <img src={c} alt="bringin image" />
+                              <p className="text-[10px] text-[#212427] text-opacity-90">
+                                {re.published_date.slice(0, 8)}
+                              </p>
+                            </div>{" "}
+                            <p className="text-[10px] text-[#212427] text-opacity-90">
+                              By Bringin Career Guide
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                  </div>
                 </div>
 
-                {recent
-                  .filter((re) => {
-                    return search.toLocaleLowerCase() === ""
-                      ? re
-                      : re.blogTitle.toLocaleLowerCase().includes(search);
-                  })
-                  .map((re) => (
-                    <div key={re._id} className="mt-10 flex gap-4">
-                      <div className="">
-                        <img
-                          alt=""
-                          src={re.img}
-                          className="object-cover w-[120px] h-[75px] rounded"
-                        />
+                <div className="my-[39px]">
+                  <div className="">
+                    <div className="w-[365px] h-[637px]   bg-[#F6F6F6] p-5 rounded rounded-[5px]">
+                      <div className="border-b-[3px] w-[115px]  border-[#0077B5] ">
+                        <p className="text-[16px] font-medium pb-[10px] text-[#212427] ">
+                          Blog categories
+                        </p>
                       </div>
-                      <div className="w-50%">
-                      <Link to={`/details/${re._id}`}>
 
-                        <h1 className="text-[15px] font-semibold">
-                          {re.blogTitle}
-                        </h1>
-                      </Link>
-
-                        <div className="flex gap-[1px]">
-                          <img src={c} alt="" />
-                          <p className="text-[10px]">{re.published_date.slice(0,8)}</p>
-                        </div>{" "}
-                        <p className="text-[10px]">By Bringin Career Guide</p>
-                      </div>
+                      {cetagori.map((ca) => {
+                        return (
+                          <Link
+                            key={ca._id}
+                            to={`/catagory/blogs/${ca.categoryName}`}
+                          >
+                            <div className="mt-5 flex gap-4 justify-between mb-2 ">
+                              <p className="text-[16px] text-[#212427] text-opacity-90">
+                                {ca.categoryName}
+                              </p>
+                              <img
+                                alt="bringin image"
+                                src={Vector}
+                                className="w-[14px] h-[14px]"
+                              />
+                            </div>
+                          </Link>
+                        );
+                      })}
                     </div>
-                  ))}
-              </div>
-            </div>
+                  </div>
+                </div>
 
-            <div className="my-[39px]">
-              <div className="">
-                <div className="w-[373px] h-[637px]  shadow-[0_8px_60px_rgb(0,0,0,0.1)]  bg-white p-5">
-                  <div className="border-b-[3px] w-[125px]  border-[#0077B5] ">
-                    <p className="text-[16px] font-semibold pb-[10px]">
-                      Blog catagories
+                <div className="my-10">
+                  <div className="w-[365px] h-[300px] bg-[#F6F6F6] border-t-[2px]  border-[#0077B5]">
+                    <img src="/images/blog/bsi.png" />
+
+                    <p className="text-[20px] text-[#177CC6] px-4 py-3">
+                      What is the best technical profession in 2023.
                     </p>
                   </div>
-
-                  {cetagor.map((ca) => {
-                    return (
-                      <Link
-                        key={ca._id}
-                        to={`/catagory/blogs/${ca.categoryName}`}
-                      >
-                        <div className="mt-10 flex gap-4 justify-between mb-2">
-                          <p className="text-[16px]">{ca.categoryName}</p>
-                          <img
-                            alt=""
-                            src={Vector}
-                            className="w-[14px] h-[14px]"
-                          />
-                        </div>
-                      </Link>
-                    );
-                  })}
+                </div>
+                <div className="my-10">
+                  <div className="w-[365px] h-[129px] bg-[#F6F6F6] border-t-[2px] border-[#00A0DC]">
+                    <div className="px-4 py-3">
+                      <p className="text-[20px] text-[#177CC6] ">
+                        What is the best technical profession in 2023.
+                      </p>
+                      <div className="flex items-center gap-2 mt-2">
+                        <p className="text-[16px] text-[#177CC6] ">READ MORE</p>
+                        <img className="h-[17px]" src="/images/ri.png" />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

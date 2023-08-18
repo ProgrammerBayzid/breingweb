@@ -47,7 +47,7 @@ const DegitalMarketing = () => {
           <div className="col-span-2 my-20">
             <div className="flex gap-1 items-center mb-4">
               <div>
-                <img alt="" src={Group} />
+                <img alt="bringin image" src={Group} />
               </div>
               <div>
                 <h1 className="text-[12px] text-[#8C8C8C]">
@@ -68,7 +68,7 @@ const DegitalMarketing = () => {
                       <div>
                         <img
                           src={img}
-                          alt=""
+                          alt="bringin image"
                           className="rounded-xl object-cover h-[274px] w-[388px]"
                         />
                       </div>
@@ -76,9 +76,9 @@ const DegitalMarketing = () => {
                         <h2 className="card-title">{blogTitle} </h2>
                         <div className="flex gap-5 my-1">
                           <p>by {authorName}</p>
-                          <img className="w-[3px]" alt="" src={l} />{" "}
+                          <img className="w-[3px]" alt="bringin image" src={l} />{" "}
                           <p>{published_date.slice(0,8)}</p>
-                          <img className="w-[3px]" alt="" src={l} />{" "}
+                          <img className="w-[3px]" alt="bringin image" src={l} />{" "}
                           <p>No Comments</p>
                         </div>
                         <p>
@@ -93,7 +93,7 @@ const DegitalMarketing = () => {
                             <div className="flex items-center">
                               <p> Read More</p>
                               <img
-                                alt=""
+                                alt="bringin image"
                                 src={fr}
                                 className="w-5 mt-[2px] pr-3"
                               />{" "}
@@ -134,7 +134,7 @@ const DegitalMarketing = () => {
                       <div key={re._id} className="mt-10 flex gap-4">
                         <div className="">
                           <img
-                            alt=""
+                            alt="bringin image"
                             src={re.img}
                             className="object-cover w-[120px] h-[75px] rounded"
                           />
@@ -146,7 +146,7 @@ const DegitalMarketing = () => {
                             </h1>
                           </Link>
                           <div className="flex gap-[1px]">
-                            <img src={c} alt=""></img>
+                            <img src={c} alt="bringin image"></img>
                             <p className="text-[10px]">{re.published_date}</p>
                           </div>{" "}
                           <p className="text-[10px]">By Bringin Career Guide</p>
@@ -161,7 +161,7 @@ const DegitalMarketing = () => {
                   <div className="w-[373px] h-[637px]  shadow-[0_8px_60px_rgb(0,0,0,0.1)]  bg-white p-5">
                     <div className="border-b-[3px] w-[125px]  border-[#0077B5] ">
                       <p className="text-[16px] font-semibold pb-[10px]">
-                        Blog catagories
+                       Blog categories
                       </p>
                     </div>
                     {cetagor.map((ca) => {
@@ -173,7 +173,7 @@ const DegitalMarketing = () => {
                           <div className="mt-10 flex gap-4 justify-between mb-2">
                             <p className="text-[16px]">{ca.categoryName}</p>
                             <img
-                              alt=""
+                              alt="bringin image"
                               src={Vector}
                               className="w-[14px] h-[14px]"
                             />

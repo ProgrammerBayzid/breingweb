@@ -4,7 +4,7 @@ import Jobs from "../JobIndusturyComponent/Job/jobs";
 import TopCities from "../JobIndusturyComponent/Job/TopCities";
 
 const JobIndustury = () => {
-    useTitle('Job Industry Page - Bringin')
+    useTitle('Job Categories - Bringin')
 
     return (
         <div>
