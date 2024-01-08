@@ -1,17 +1,43 @@
 import { Link, useLoaderData } from "react-router-dom";
-import job from "../../assets/logo/job.svg";
-import location from "../../assets/logo/locetion.svg";
 import AppLogo from "../App/AppLogo";
 import useTitle from "../../hooks/useTitle";
 import SearchComponent from "../SearchComponent/SearchComponent";
+import { useState } from "react";
+import { useParams } from 'react-router-dom';
+import { useEffect } from "react";
+
 const ExpertiseArea = () => {
   useTitle("Expertise Area - Bringin");
+  const { categoryname } = useParams();
 
   const expertisearea = useLoaderData();
   console.log(expertisearea);
   const expertiseAreas = expertisearea.functionarea;
   // const first = everyca[0]
 
+
+  const [currentPage, SetCurrentPage] = useState(1);
+  const recruterPerPage = 12;
+  const lastIndex = currentPage * recruterPerPage;
+  const firstIndex = lastIndex - recruterPerPage;
+  const ex = expertiseAreas.slice(firstIndex, lastIndex);
+  const npage = Math.ceil(expertiseAreas.length / recruterPerPage);
+  const numbers = [...Array(npage + 1).keys()].slice(1);
+  useEffect(() => {
+    
+    const script = document.createElement("script");
+
+     
+    script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1556748687572177";
+    script.async = true;
+    script.crossOrigin = "anonymous";
+
+     document.head.appendChild(script);
+
+     return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
   return (
     <div>
       <div className="flex justify-center">
@@ -26,7 +52,7 @@ const ExpertiseArea = () => {
                   <div className="mb-[46px]  ">
                     <h1 className=" lg:text-[40px] text-[#023C5B] md:text-[40px] text-[30px] font-semibold  text-center">
                       Trending{" "}
-                      {expertisearea?.categoryname ? expertisearea?.categoryname : ""}{" "}
+                      {categoryname}{" "}
                       Expertise Area in Bangladesh
                     </h1>
                   </div>
@@ -37,9 +63,9 @@ const ExpertiseArea = () => {
                     <div className="flex justify-center">
                     <div className="lg:p-0 md:p-0 p-5 lg:pb-[200px]">
                       <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-2 lg:gap-[58px] md:gap-[58px] gap-[50px]  ">
-                        {expertiseAreas.map((ceta) => (
-                          <div key={ceta.id}>
-                            <Link to={`/candidate/${ceta._id}`}>
+                        {ex.map((ceta) => (
+                          <div key={ceta._id}>
+                            <Link to={`/candidates/${ceta.functionalname}`}>
                               <div className="card lg:w-[250px] md:w-[200px] w-[160px]  h-[130px] bg-[#F6FCF6] bg-white shadow-[0_8px_60px_rgb(0,0,0,0.1)]  rounded rounded-[15px] relative">
                                 <div className=" py-5 px-5">
                                   <div className="lg:w-[170px] md:w-[200px] w-[160px]  h-[110px]">
@@ -57,6 +83,31 @@ const ExpertiseArea = () => {
                         ))}
                       </div>
                       <div></div>
+                      <div className=" flex justify-between px-10 mt-20 ">
+                            <div>
+                              <p className="text-[18px] text-[#212427] bg-[#F6FCF6] bg-white shadow-[0_8px_60px_rgb(0,0,0,0.1)]  relative rounded rounded-[5px] h-[30px] px-5 flex items-center">
+                                {firstIndex + 1} - {lastIndex} {"  "}of{"  "}
+                                {expertiseAreas.length}
+                              </p>
+                            </div>
+                            <div>
+                              <div className="flex gap-2">
+                                {numbers.map((n, i) => (
+                                  <p key={i} className="text-[18px] text-[#212427] bg-[#F6FCF6] bg-white shadow-[0_8px_60px_rgb(0,0,0,0.1)]  relative rounded rounded-[5px] h-[30px] px-5 flex items-center hover:text-blue-500 cursor-pointer"  onClick={() => changePage(n)}>
+                                    <a
+                                      href="#"
+                                     
+                                      className={
+                                        currentPage === n ? "text-blue-500" : ""
+                                      }
+                                    >
+                                      {n}
+                                    </a>
+                                  </p>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
                     </div>
                   </div>
                     </div>
@@ -74,6 +125,21 @@ const ExpertiseArea = () => {
       </div>
     </div>
   );
+  function pevPage() {
+    if (currentPage !== 1) {
+      SetCurrentPage(currentPage - 1);
+    }
+  }
+
+  function changePage(newPage) {
+    SetCurrentPage(newPage);
+  }
+
+  function nextPage() {
+    if (currentPage !== npage) {
+      SetCurrentPage(currentPage + 1);
+    }
+  }
 };
 
 export default ExpertiseArea;

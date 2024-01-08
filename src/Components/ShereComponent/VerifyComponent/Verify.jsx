@@ -1,15 +1,12 @@
+import a from "../../../../public/images/RI-icons/box.png";
+import b from "../../../../public/images/RI-icons/left-arrow.png";
 import { useState } from "react";
-// import { toast } from "react-toastify";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import useTitle from "../../../hooks/useTitle";
-import { NavLink } from "react-router-dom";
-import { Fragment } from "react";
-import { Menu, Transition } from "@headlessui/react";
-import AppLinkModal from "../AppLinkModal";
-const Verify = () => {
-  useTitle("Verify - Bringin");
 
+import { Helmet } from "react-helmet";
+import "react-lazy-load-image-component/src/effects/blur.css";
+const Verify = () => {
   const [message, setMessage] = useState("");
   const [code, setOtp] = useState(new Array(4).fill(""));
   const navigate = useNavigate();
@@ -46,41 +43,70 @@ const Verify = () => {
     const data = {
       number: JSON.parse(userNumber),
       otp: JSON.stringify(int),
-      isrecruiter: 0,
+      isrecruiter: 1,
     };
     console.log(data);
+
     try {
-      const response = await fetch("https://rsapp.bringin.io/verify", {
+      const response = await fetch("https://rsapp.unbolt.co/verify", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
-      })
-        .then((res) => res.json())
-        .then((result) => {
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        if (data.userData.other.profile_verify !== false) {
+          navigate("/dashboard/recruiter");
+          localStorage.setItem("token", JSON.stringify(data.token));
+          localStorage.setItem("recruterID", JSON.stringify(data.userData._id));
+          localStorage.setItem("recruterData", JSON.stringify(data.userData));
           setMessage("Verify successfully!");
-          navigate("/register");
-          console.log(result);
-          localStorage.setItem("token", JSON.stringify(result.token));
-          // const u = localStorage.getItem("user");
-          // console.log(u);
-        });
+        } else if (
+          data.userData.firstname === null ||
+          data.userData.lastname === null ||
+          data.userData.designation === null ||
+          data.userData.email === null
+        ) {
+          navigate("/registration-recruiters");
+          console.log(data);
+          localStorage.setItem("token", JSON.stringify(data.token));
+          localStorage.setItem("recruterID", JSON.stringify(data.userData._id));
+          localStorage.setItem("recruterData", JSON.stringify(data.userData));
+          setMessage("Verify successfully!");
+        } else if (data.userData.companyname === null) {
+          navigate("/register-your-company");
+          localStorage.setItem("token", JSON.stringify(data.token));
+          localStorage.setItem("recruterID", JSON.stringify(data.userData._id));
+          localStorage.setItem("recruterData", JSON.stringify(data.userData));
+          setMessage("Verify successfully!");
+          console.log(data);
+        } else if (
+          data.userData.companyname !== null &&
+          data.userData.other.profile_verify === false
+        ) {
+          navigate("/recruiter-identity-verification");
+          localStorage.setItem("token", JSON.stringify(data.token));
+          localStorage.setItem("recruterID", JSON.stringify(data.userData._id));
+          localStorage.setItem("recruterData", JSON.stringify(data.userData));
+          setMessage("Verify successfully!");
+        } else {
+          // Number doesn't exist, redirect to registration or show an error
+          localStorage.setItem("token", JSON.stringify(data.token));
+          setMessage("Verify successfully!");
+          navigate("/registration-recruiters");
+          console.log(data);
 
-      // console.log("OTP GET");
-      // if (response.ok) {
-      //   setMessage("Verify successfully!");
-      //   navigate("/register");
-      //   console.log(response);
-
-      //   localStorage.setItem("user", JSON.stringify());
-      //   const u = localStorage.getItem("user");
-      //   console.log(u);
-
-      // } else  if (response.status === 400) {
-      //   setMessage("Error Verify. Please try again later.");
-      //   console.log(response);
-      // }
+          localStorage.setItem("token", JSON.stringify(data.token));
+          localStorage.setItem("recruterID", JSON.stringify(data.userData._id));
+          localStorage.setItem("recruterData", JSON.stringify(data.userData));
+        }
+      } else {
+        setMessage("Error Verify. Please try again later.");
+      }
     } catch (err) {
       setMessage("Error Verify. Please try again later.");
     }
@@ -91,7 +117,7 @@ const Verify = () => {
   const handleRegisterSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch("https://rsapp.bringin.io/singup", {
+      const response = await fetch("https://rsapp.unbolt.co/singup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -116,7 +142,7 @@ const Verify = () => {
         setCounter(59);
         localStorage.setItem("number", JSON.stringify(phoneNumber));
         const u = localStorage.getItem("number");
-        // console.log(u);
+        console.log(u);
       } else {
         setMessage("Error sending OTP. Please try again later.");
       }
@@ -134,293 +160,38 @@ const Verify = () => {
     return () => clearInterval(timer);
   }, [counter]);
 
-  const [openModal, closeModal] = useState(false);
-
-  const nabnar = (
-    <div className="flex gap-[80px] App">
-      <div>
-        <div className="flex "></div>
-      </div>
-
-      <div>
-        <div className="flex gap-[21px]">
-          <p>
-            <NavLink
-              to="/"
-              className={({ isActive }) => {
-                return (
-                  "text-[18px] font-bold text-[#031C44] border border-[#57849c] rounded rounded-[10px] py-2 px-3 " +
-                  (!isActive
-                    ? "text-[18px] font-bold text-[#031C44] hover:border hover:border-[#57849c] hover:rounded hover:rounded-[10px] hover:py-2 hover:px-3 border border-white rounded rounded-[10px] py-2 px-3"
-                    : "text-[18px] font-bold text-[#031C44] border border-[#57849c] rounded rounded-[10px] py-2 px-3 ")
-                );
-              }}
-            >
-              Home
-            </NavLink>
-          </p>
-          <button className=" ">
-            <NavLink
-              to="/recruiterslogin"
-              className={({ isActive }) => {
-                return (
-                  "text-[18px] font-bold text-[#031C44] border border-[#57849c] rounded rounded-[10px] py-2 px-3 " +
-                  (!isActive
-                    ? "text-[18px] font-bold text-[#031C44] hover:border hover:border-[#57849c] hover:rounded hover:rounded-[10px] hover:py-2 hover:px-3 border border-white rounded rounded-[10px] py-2 px-3"
-                    : "text-[18px] font-bold text-[#031C44] border border-[#57849c] rounded rounded-[10px] py-2 px-3 ")
-                );
-              }}
-            >
-              Recruiter Login
-            </NavLink>
-          </button>
-          <button onClick={() => closeModal(true)} className="">
-            <NavLink className="btn border border-[#57849c] rounded rounded-[5px]  bg-[#0077B5] py-2 px-3 text-[18px] font-bold text-white">
-              Download App
-            </NavLink>
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-
-  const mnavbar = (
-    <ul className="flex items-center">
-      <li className="">
-        <Menu as="div" className="relative inline-block ">
-          <div>
-            <Menu.Button className="inline-flex  ">
-              <img
-                alt="bringin image"
-                src="/images/Sidebar.svg"
-                className="w-[28px] h-[17px] cursor-pointer"
-              />
-            </Menu.Button>
-          </div>
-
-          <Transition
-            as={Fragment}
-            enter="transition ease-out duration-100"
-            enterFrom="transform opacity-0 scale-95"
-            enterTo="transform opacity-100 scale-100"
-            leave="transition ease-in duration-75"
-            leaveFrom="transform opacity-100 scale-100"
-            leaveTo="transform opacity-0 scale-95"
-          >
-            <Menu.Items className="origin-top-right absolute z-50 right-[-7px] mt-4 w-[410px]  rounded-xl  shadow-lg bg-white border border-white">
-              <div className="  my-2">
-                <div className="flex flex-col gap-1 ">
-                  <div className="w-[410px] flex justify-center">
-                    <Menu.Item>
-                      <NavLink
-                        to="/"
-                        className={({ isActive }) => {
-                          return (
-                            "text-black text-[18px]  border-[#57849c] border py-[4px]  px-3  rounded-[10px] " +
-                            (!isActive
-                              ? " text-black text-[18px] border-white border py-[4px] px-3 hover:border-[#57849c]  hover:border hover:py-[4px]  hover:px-3  hover:rounded-[10px]"
-                              : "text-black text-[18px]  border-[#57849c] border py-[4px]  px-3  rounded-[10px]")
-                          );
-                        }}
-                      >
-                        <p>Home</p>
-                      </NavLink>
-                    </Menu.Item>
-                  </div>
-
-                  <div className="w-[410px] flex justify-center">
-                    <Menu.Item>
-                      <NavLink
-                        to="/recruiterslogin"
-                        className={({ isActive }) => {
-                          return (
-                            "text-black text-[18px]  border-[#57849c] border py-[4px]  px-3  rounded-[10px] " +
-                            (!isActive
-                              ? " text-black text-[18px] border-white border py-[4px] px-3 hover:border-[#57849c]  hover:border hover:py-[4px]  hover:px-3  hover:rounded-[10px]"
-                              : "text-black text-[18px]  border-[#57849c] border py-[4px]  px-3  rounded-[10px]")
-                          );
-                        }}
-                      >
-                        Recruiter Login
-                      </NavLink>
-                    </Menu.Item>
-                  </div>
-                  <div className="w-[410px] mb-5 flex justify-center">
-                    <Menu.Item>
-                      <div>
-                        <label
-                          onClick={() => closeModal(true)}
-                          className="py-[7px]   px-3  text-white  text-[18px]  border-[#57849c] bg-[#0077B5]  rounded rounded-[10px]  cursor-pointer"
-                        >
-                          {" "}
-                          Download App
-                        </label>
-                      </div>
-                    </Menu.Item>
-                  </div>
-                </div>
-              </div>
-            </Menu.Items>
-          </Transition>
-        </Menu>
-      </li>
-    </ul>
-  );
-
-  const tnavbar = (
-    <ul className="flex items-center">
-      <li className="">
-        <Menu as="div" className="relative inline-block ">
-          <div>
-            <Menu.Button className="inline-flex  ">
-              <img
-                alt="bringin image"
-                src="/images/Sidebar.svg"
-                className="w-[28px] h-[17px] cursor-pointer mx-3"
-              />
-            </Menu.Button>
-          </div>
-
-          <Transition
-            as={Fragment}
-            enter="transition ease-out duration-100"
-            enterFrom="transform opacity-0 scale-95"
-            enterTo="transform opacity-100 scale-100"
-            leave="transition ease-in duration-75"
-            leaveFrom="transform opacity-100 scale-100"
-            leaveTo="transform opacity-0 scale-95"
-          >
-            <Menu.Items className="origin-top-right z-50 absolute right-[-8px] mt-2 w-[830px]  rounded-xl  shadow-lg bg-white border border-white	">
-              <div className="py-1 text-center my-4">
-                <div className="flex flex-col gap-3 ">
-                  <div className="w-[830px] flex justify-center">
-                    <Menu.Item>
-                      <NavLink
-                        to="/"
-                        className={({ isActive }) => {
-                          return (
-                            "text-black text-[18px]  border-[#57849c] border  py-[5px] px-3   py-[5px]  px-3 rounded-[10px] " +
-                            (!isActive
-                              ? "text-black text-[18px]  hover:border-[#57849c] border border-white py-[5px] px-3   hover:border hover:py-[5px]  hover:px-3  hover:rounded-[10px] "
-                              : "text-black text-[18px]  border-[#57849c] border  py-[5px] px-3   py-[5px]  px-3 rounded-[10px] ")
-                          );
-                        }}
-                      >
-                        <p className="">Home</p>
-                      </NavLink>
-                    </Menu.Item>
-                  </div>
-
-                  <div className="w-[830px] flex justify-center">
-                    <Menu.Item>
-                      <NavLink
-                        to="/recruiterslogin"
-                        className={({ isActive }) => {
-                          return (
-                            "text-black text-[18px]  border-[#57849c] border  py-[5px] px-3   py-[5px]  px-3 rounded-[10px] " +
-                            (!isActive
-                              ? "text-black text-[18px]  hover:border-[#57849c] border border-white py-[5px] px-3   hover:border hover:py-[5px]  hover:px-3  hover:rounded-[10px] "
-                              : "text-black text-[18px]  border-[#57849c] border  py-[5px] px-3   py-[5px]  px-3 rounded-[10px] ")
-                          );
-                        }}
-                      >
-                        Recruiter Login
-                      </NavLink>
-                    </Menu.Item>
-                  </div>
-                  <div className="w-[830px] flex justify-center">
-                    <Menu.Item>
-                      <div>
-                        <label
-                          onClick={() => closeModal(true)}
-                          className="py-[10px]  px-3 text-white  text-[18px]  border-[#0077B5] bg-[#0077B5]  rounded rounded-[10px] mx-3 cursor-pointer"
-                        >
-                          {" "}
-                          Download App
-                        </label>
-                      </div>
-                    </Menu.Item>
-                  </div>
-                </div>
-              </div>
-            </Menu.Items>
-          </Transition>
-        </Menu>
-      </li>
-    </ul>
-  );
   return (
-    <div>
-      <div>
+    <div className="font-inter">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Verify as a Recruiter | Unbolt Chat Based Hiring App </title>
+        <meta name="description" content="" />
+        <link rel="canonical" href="http://unbolt.co/verifications" />
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-KKFH10XGFV"
+        ></script>
+        <script>
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-KKFH10XGFV');
+          `}
+        </script>
+      </Helmet>
+      <div className="hidden lg:block">
         <div>
-          <div className="relative lg:bg-[url(/src/bgimages/RecruiterLoginbg.png)] bg-contain	 bg- bg-no-repeat">
-            <div className="w-full lg:h-[630px] ">
-              <div>
-                {/* pc navber */}
-                <div className="lg:block md:hidden hidden">
-                  <div className=" mx-[40px]">
-                    <div className="flex h-[95px] justify-between   items-center  ">
-                      <div>
-                        <NavLink to="/">
-                          <img src="/images/navlogo.svg" alt="" />
-                        </NavLink>
-                      </div>
-                      <div>{nabnar}</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* tab navbar */}
-                <div className="hidden md:block lg:hidden">
-                  <div className="  mx-[10px] ">
-                    <div className="flex h-[95px] items-center justify-between">
-                      <div>
-                        <NavLink to="/">
-                          <img
-                            className="w-[200px]"
-                            src="/images/navlogo.svg"
-                            alt=""
-                          />
-                        </NavLink>
-                      </div>
-                      <div>{tnavbar}</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* mobile navbar */}
-
-                <div className=" block lg:hidden md:hidden">
-                  <div className="mx-[10px]">
-                    <div className="flex h-[55px] items-center justify-between">
-                      <div>
-                        <NavLink to="/">
-                          <img
-                            className="w-[150px]"
-                            src="/images/navlogo.svg"
-                            alt=""
-                          />
-                        </NavLink>
-                      </div>
-                      <div>{mnavbar}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="lg:flex md:flex  justify-around  mt-[40px]">
-              <div className=" hidden lg:block md:block ">
-                <img
-                  alt="bringin image"
-                  src="/images/Photo.png"
-                  className="w-[360px] h-[444px] "
-                />
-              </div>
-                <div className="">
-                  <div className="lg:w-[479px] lg:h-[329px] border bprder-[3px] rounded rounded-[10px] p-10">
-                    <h1 className="lg:text-[22px] md:text-[20px] text-[18px] font-semibold mb-2">
+          <div>
+            <div className="lg:h-[550px]">
+              <div></div>
+              <div className="lg:flex md:flex  justify-center  ">
+                <div className="pt-7 pb-20">
+                  <div className="lg:w-[479px] bg-white lg:h-[345px] border bprder-[3px] rounded rounded-[10px] p-10">
+                    <h1 className="lg:text-[22px] md:text-[20px] text-[17px] text-opacity-90 text-[#212427] font-inter font-semibold mb-2">
                       Enter verification code
                     </h1>
-                    <p className="text-[14px]">
+                    <p className="text-[14px] text-[#212427] text-opacity-80 font-normal font-inter">
                       A 4-digit code has been sent to +88{n}, Enter the code
                       within {counter} seconds.
                     </p>
@@ -441,19 +212,21 @@ const Verify = () => {
                                   }
                                   onFocus={(e) => e.target.select()}
                                   maxLength="1"
-                                  className="focus:outline-none  border bprder-[3px] rounded pl-[27px] w-[55px] h-[45px] mb-4 "
+                                  className="focus:outline-none  border border-[1px] border-[#212427] border-opacity-40 rounded pl-[25px] w-[55px] h-[45px] mb-4 "
                                 />
                               );
                             })}
                           </div>
                         </div>
                         <div className=" mb-5 ">
-                          <p className="text-[14px]">Don't get code?</p>
+                          <p className="text-[14px] text-[#212427] text-opacity-90 font-semibold">
+                            Don't get code?
+                          </p>
                           <p>
                             <>
                               <span
                                 onClick={handleRegisterSubmit}
-                                className="text-[#0077B5] text-[14px] cursor-pointer"
+                                className="text-[#0077B5] text-[14px] cursor-pointer font-semibold"
                               >
                                 Resend Code
                               </span>
@@ -463,7 +236,7 @@ const Verify = () => {
                         </div>
                         <button
                           type="submit"
-                          className="lg:w-[400px] w-[330px] h-[45px] bg-[#F2F2F2] text-[18px] font-semibold hover:bg-[#0077B5] hover:text-white rounded"
+                          className="lg:w-[400px] w-[330px] h-[45px] bg-[#00A0DC] bg-opacity-40 text-[18px] font-medium hover:bg-[#0077B5] hover:text-white rounded"
                         >
                           Submit
                         </button>
@@ -476,58 +249,66 @@ const Verify = () => {
             </div>
           </div>
         </div>
-        <div className="flex justify-center my-5">
-        <div className="lg:text-start text-center">
-          <div className="lg:flex lg:flex-row-reverse  md:flex md:flex-row-reverse gap-x-3 items-center">
-            <div>
-              <div className="lg:flex gap-x-3 items-center">
-                <Link
-                  to="/privacypolicy"
-                  className="link link-hover text-[18px] text-[#005085] "
-                >
-                  <p className="lg:mb-0 md:mb-0 mb-2">Privacy policy</p>
-                </Link>
-                <img
-                  className="w-[2px] h-[20px] hidden lg:block md:hidden"
-                  alt="bringin image"
-                  src="/images/liner.png"
-                />
-                <Link
-                  to="/terms&conditions"
-                  className="link link-hover text-[18px] text-[#005085] "
-                >
-                  <p className="lg:mb-0 md:mb-0 mb-2">Terms & conditions</p>
-                </Link>
-                <img
-                  className="w-[2px] h-[20px] hidden lg:block md:hidden"
-                  alt="bringin image"
-                  src="/images/liner.png"
-                />
-                <Link
-                  to="/terms&conditions"
-                  className="link link-hover text-[18px] text-[#005085] "
-                >
-                  <p className="lg:mb-0 md:mb-0 mb-2">
-                    Cancellation & refund policy
-                  </p>
-                </Link>
-              </div>
-            </div>
+      </div>
+
+      {/* Mobile Responsive */}
+
+      <div className="flex justify-center block lg:hidden bg-white">
+        <div>
+          <div className="mx-[10px] w-[360px]">
             <img
-              className="w-[2px] h-[20px] hidden lg:block md:hidden"
-              alt="bringin image"
-              src="/images/liner.png"
+              className="w-[24px] h-[24px] -ms-10 cursor-pointer"
+              src={b}
+              alt=""
             />
-            <p className="text-[16px] font-medium">
-              © Copyright Bringin Technologies Limited. All Rights Reserved.
-            </p>
+            <div className="">
+              <p className="text-[#212427] text-[26px] text-center font-semibold">
+                Verify Your Phone Number
+              </p>
+              <p className="text-[#000000] text-opacity-70 text-[16px] text-center">
+                Code is sent to 01756748675
+              </p>
+
+              {/* <p className="my-4 text-[#212427] text-[16px] text-center">
+                Didn't receive code?
+              </p> */}
+
+              {/* conditonally while code not received */}
+
+              <p className="my-4 text-[#00A0DC] text-[16px] text-center">
+                Didn't receive code?
+              </p>
+              <div className="flex gap-5 justify-center">
+                <img className="w-[59px] h-[47px]" src={a} alt="" />
+                <img className="w-[59px] h-[47px]" src={a} alt="" />
+                <img className="w-[59px] h-[47px]" src={a} alt="" />
+                <img className="w-[59px] h-[47px]" src={a} alt="" />
+              </div>
+              <p className="mt-4 mb-2 text-[#212427] text-opacity-60 text-[16px] text-center">
+                Enter the 4-digit code
+              </p>
+
+              {/* <p className="mb-4 text-[#212426] text-opacity-60 text-[16px] text-center">
+                Resend Code
+                <span className="text-[#212426]"> 60s</span>
+              </p> */}
+
+              {/* conditonally while code not received */}
+
+              <p className="mb-4 text-[#00A0DC] text-[16px] text-center">
+                Resend Code
+              </p>
+            </div>
+            <div className="text-center">
+              <button
+                type="submit"
+                className="w-[140px] h-[48px] text-[16px] font-semibold bg-[#1C4B81] rounded-3xl text-white"
+              >
+                Submit
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-        <AppLinkModal
-          visible={openModal}
-          closeModal={closeModal}
-        ></AppLinkModal>
       </div>
     </div>
   );

@@ -1,11 +1,43 @@
-import useTitle from "../../hooks/useTitle";
+import { Helmet } from "react-helmet";
 import AppLogo from "../App/AppLogo";
-import dot from '../../assets/privicy/Ellipse 207.svg'
+import { useEffect } from "react";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 const PrivacyPolicy = () => {
-  useTitle('Privacy Policy - Bringin')
+  useEffect(() => {
+    
+    const script = document.createElement("script");
 
+     
+    script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1556748687572177";
+    script.async = true;
+    script.crossOrigin = "anonymous";
+
+     document.head.appendChild(script);
+
+     return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
   return (
-    <div className="my-20 lg:mx-[40px] md:mx-[10px] mx-[10px]">
+    <div className="lg:my-20 my-7 lg:mx-[40px] md:mx-[10px] mx-[10px]">
+      
+      <Helmet>
+                <meta charSet="utf-8" />
+                <title>Read our privacy policy | Unbolt Chat Based Hiring App </title>
+                <meta name="description" content="Explore our privacy policy. Your data security matters. Learn how Unbolt ensures your information is protected." />
+                <link rel="canonical" href="http://unbolt.co/privacy-policy" />
+                <link rel="canonical" href="http://unbolt.co/privacy-policy" />
+                <script async src="https://www.googletagmanager.com/gtag/js?id=G-KKFH10XGFV"></script>
+        <script>
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-KKFH10XGFV');
+          `}
+        </script>
+            </Helmet>
       <div className="lg:mx-12">
         <h1 className="lg:text-[40px] md:text-[30px] text-[25px] text-[#023C5B] text-center font-semibold mb-7">
           Privacy Policy
@@ -86,13 +118,15 @@ const PrivacyPolicy = () => {
             We use the information we collect in various ways, including:            </p>
             <div className="flex gap-4 items-center mb-7">
               <div>
-                <img
+                <LazyLoadImage
+              effect= "blur"
                   
                   
-                  alt="bringin image"
-                  src={dot}
+                  alt="Unbolt image"
+                  alt="unbolt image"
+                  src="/images/privicy/Ellipse 207.svg"
                   className=""
-                ></img>
+                ></LazyLoadImage>
               </div>
               <div>
                 <p className=" text-[#6A6A6A] text-[21px] font-medium">
@@ -102,13 +136,15 @@ const PrivacyPolicy = () => {
             </div>
             <div className="flex gap-4 items-center mb-7">
               <div>
-                <img
+                <LazyLoadImage
+              effect= "blur"
                   
                   
-                  alt="bringin image"
-                  src={dot}
+                  alt="Unbolt image"
+                  alt="unbolt image"
+                  src="/images/privicy/Ellipse 207.svg"
                   className=""
-                ></img>
+                ></LazyLoadImage>
               </div>
               <div>
                 <p className=" text-[#6A6A6A] text-[21px] font-medium">
@@ -120,13 +156,15 @@ const PrivacyPolicy = () => {
 
             <div className="flex gap-4 items-center mb-7">
               <div>
-                <img
+                <LazyLoadImage
+              effect= "blur"
                   
                   
-                  alt="bringin image"
-                  src={dot}
+                  alt="Unbolt image"
+                  alt="unbolt image"
+                  src="/images/privicy/Ellipse 207.svg"
                   className=""
-                ></img>
+                ></LazyLoadImage>
               </div>
               <div>
                 <p className=" text-[#6A6A6A] text-[21px] font-medium">
@@ -136,13 +174,15 @@ const PrivacyPolicy = () => {
 
             <div className="flex gap-4 items-center mb-7">
               <div>
-                <img
+                <LazyLoadImage
+              effect= "blur"
                   
                   
-                  alt="bringin image"
-                  src={dot}
+                  alt="Unbolt image"
+                  alt="unbolt image"
+                  src="/images/privicy/Ellipse 207.svg"
                   className=""
-                ></img>
+                ></LazyLoadImage>
               </div>
               <div>
                 <p className=" text-[#6A6A6A] text-[21px] font-medium">
@@ -152,12 +192,14 @@ const PrivacyPolicy = () => {
             </div>
             <div className="flex gap-4  mb-7">
               <div>
-                <img
+                <LazyLoadImage
+              effect= "blur"
                  
-                  alt="bringin image"
-                  src={dot}
+                  alt="Unbolt image"
+                  alt="unbolt image"
+                  src="/images/privicy/Ellipse 207.svg"
                   className="mt-3 w-4"
-                ></img>
+                ></LazyLoadImage>
               </div>
               <div>
                 <p className=" text-[#6A6A6A] text-[21px] font-medium">
@@ -169,13 +211,15 @@ const PrivacyPolicy = () => {
 
             <div className="flex gap-4 items-center mb-7">
               <div>
-                <img
+                <LazyLoadImage
+              effect= "blur"
                   
                   
-                  alt="bringin image"
-                  src={dot}
+                  alt="Unbolt image"
+                  alt="unbolt image"
+                  src="/images/privicy/Ellipse 207.svg"
                   className=""
-                ></img>
+                ></LazyLoadImage>
               </div>
               <div>
                 <p className=" text-[#6A6A6A] text-[21px] font-medium">
@@ -185,13 +229,15 @@ const PrivacyPolicy = () => {
             </div>
             <div className="flex gap-4 items-center mb-7">
               <div>
-                <img
+                <LazyLoadImage
+              effect= "blur"
                   
                   
-                  alt="bringin image"
-                  src={dot}
+                  alt="Unbolt image"
+                  alt="unbolt image"
+                  src="/images/privicy/Ellipse 207.svg"
                   className=""
-                ></img>
+                ></LazyLoadImage>
               </div>
               <div>
                 <p className=" text-[#6A6A6A] text-[21px] font-medium">
@@ -269,23 +315,23 @@ A)  Payment Gateway: {" "}
               <p className="font-semibold text-[24px] mb-4">
               7. Modification of Privacy Policy              </p>
               <p className="text-[#6A6A6A] text-[21px] font-medium">
-              Bringin reserves the right to modify or change the present Privacy Policy without prior notice. You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective.
+              Unbolt reserves the right to modify or change the present Privacy Policy without prior notice. You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective.
               </p>
             </div>
 
             <div className="my-10">
               <p className=" font-medium text-[21px] font-medium">
-                If you have any more questions about bringin terms and condition
+                If you have any more questions about unbolt terms and condition
                 please contact us at{" "}
                 <span className="text-[#0077B5] font-semibold">
-                  hello@bringin.io
+                  hello@unbolt.io
                 </span>
               </p>
             </div>
           </div>
         </div>
       </div>
-      <div className='flex justify-center mt-10'>
+      <div className='flex justify-center lg:mt-10 mt-0'>
            <AppLogo></AppLogo>
            </div>
     </div>

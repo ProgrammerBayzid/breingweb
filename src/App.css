@@ -1,8 +1,15 @@
 #mx {
   max-width: 1366px;
   margin: auto;
+  
 }
-
+body{
+  font-family: 'DM Sans', sans-serif;
+  
+}
+.react-quill-no-border {
+  border: none;
+}
 .swiper-button-prev:after,
 .swiper-rtl .swiper-button-next:after {
   content: "prev";
@@ -15,7 +22,15 @@
   letter-spacing: 0;
   font-variant: initial;
   line-height: 1;
-  color: #023C5B;
+  color: #023c5b;
+}
+
+/* Add this CSS to your stylesheet */
+@media (max-width: 768px) {
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none !important; /* Hide navigation buttons on small screens */
+  }
 }
 
 .swiper-button-next,
@@ -32,7 +47,7 @@
   align-items: center;
   justify-content: center;
   color: var(--swiper-navigation-color, var(--swiper-theme-color));
-  color:  #023C5B;
+  color: #023c5b;
 }
 
 .slider {
@@ -60,7 +75,7 @@
 }
 
 .app__slider .slide {
-  width : 80%;
+  width: 80%;
   height: 15%;
   display: none;
 }
@@ -83,7 +98,7 @@
 /* Scrollbar modification */
 
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 3px;
 }
 
 /* Track */
@@ -159,3 +174,63 @@ datalist option:focus {
   width: 100%;
 
 } */
+
+.upload {
+  width: 70px;
+  position: relative;
+  margin: auto;
+}
+
+
+.upload .round {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  height: 32px;
+  line-height: 33px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.upload .round input[type="file"] {
+  position: absolute;
+  transform: scale(2);
+  opacity: 0;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+  cursor: pointer;
+}
+
+
+#textarea::placeholder {
+  white-space: pre-line; /* This allows line breaks */
+}
+
+.pulsew {
+  width: 55px;
+  height: 55px;
+  background: #32d851;
+  border-radius: 50%;
+  color: #fff;
+  font-family: verdana;
+  text-transform: uppercase;
+  animation: wha 3s linear infinite;
+}
+
+@keyframes wha {
+  0% {
+    box-shadow: 0 0 0 0 rgba(50 216 81), 0 0 0 0 rgba(50 216 81);
+  }
+  40% {
+    box-shadow: 0 0 0 20px rgba(255, 109, 74, 0), 0 0 0 0 rgba(50 216 81);
+  }
+  80% {
+    box-shadow: 0 0 0 20px rgba(255, 109, 74, 0),
+      0 0 0 15px rgba(255, 109, 74, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 109, 74, 0), 0 0 0 15px rgba(255, 189, 74, 0);
+  }
+}

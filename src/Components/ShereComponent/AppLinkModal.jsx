@@ -1,7 +1,6 @@
 import { useState } from "react";
-import sa from "../../assets/modal/Group 11827.png";
-import a from "../../assets/modal/ai.svg";
-
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 const AppLinkModal = ({visible, closeModal}) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [message, setMessage] = useState("");
@@ -23,7 +22,7 @@ const AppLinkModal = ({visible, closeModal}) => {
   const handleAppLinkSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch("http://localhost:3002/app_link", {
+      const response = await fetch("https://rsapp.unbolt.co/app_link", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,7 +33,7 @@ const AppLinkModal = ({visible, closeModal}) => {
       });
       console.log("App Link GET");
       if (response.ok) {
-        setMessage("Successfully Share the link via SMS");
+        setMessage("Please check your phone SMS, we have successfully sent a download link.");
         setPhoneNumber("");
         localStorage.setItem("number", JSON.stringify(phoneNumber));
         const u = localStorage.getItem("number");
@@ -56,7 +55,7 @@ if(!visible) return null
     <div className="fixed inset-0 bg-white bg-opacity-50 flex justify-center items-center z-40 backdrop-blur-[10px]">
       <div  className="">
         <div className=" w-full ">
-          <div className=" lg:w-[850px] bg-white lg:h-[560px] md:w-[750px] relative md:h-[550px] w-[330px] h-[450px] flex justify-center items-center shadow-[0_8px_30px_rgb(0,0,0,0.12)] lg:p-0 md:p-0 p-2">
+          <div className=" lg:w-[850px] bg-white lg:h-[560px] md:w-[750px] relative md:h-[550px] w-[330px] h-[450px] flex justify-center items-center shadow-[0_8px_30px_rgb(0,0,0,0.12)] lg:p-0 md:p-0 p-2 rounded rounded-[10px]">
           <label onClick={()=>closeModal(false)}  className="cursor-pointer text-[25px] absolute right-4 top-2 text-black">
               ✕
             </label>
@@ -84,7 +83,7 @@ if(!visible) return null
                           value={phoneNumber}
                           onChange={handleInputChange}
                           // onBlur={handleBlur}
-                          className=" focus:outline-none  rounded  placeholder:text-[#C7C8C9] h-[55px]  lg:w-[356px]  md:w-[356px] w-[300px] shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] px-[75px] placeholder:text-[15px] lg:placeholder:text-[15px] md:placeholder:text-[16px]"
+                          className=" focus:outline-none  rounded  placeholder:text-[#C7C8C9] h-[55px]  lg:w-[356px]  md:w-[356px] w-[300px] shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] pl-[75px] placeholder:text-[15px] lg:placeholder:text-[15px] md:placeholder:text-[16px]"
                           placeholder="Enter 10 digit mobile number"
                           required
                         />
@@ -97,7 +96,7 @@ if(!visible) return null
                         className="lg:w-[152px] md:h-[53px] md:w-[152px] md:h-[53px] w-[120px] h-[40px] bg-[#0077B5] text-white  shadow-md rounded-md "
                       >
                         <p className=" text-center lg:text-[20px] md:lg:text-[20px] text-[14px] font-medium  py-[11px] ">
-                          Get The Link
+                          Get the Link
                         </p>
                       </button>
                     </div>
@@ -107,13 +106,28 @@ if(!visible) return null
               <h1 className="text-center lg:mt-7 lg:text-[25px] text-[15px] font-medium">or</h1>
               <h1 className="text-center lg:mt-7 lg:text-[25px] text-[15px] font-medium">
                 Scan the QR code below to download the
-                <span className="text-[#0077B5]"> bringin app</span>
+                <span className="text-[#0077B5]"> unbolt app</span>
               </h1>
 
               <div className="flex  justify-center mt-7">
                 <div className="flex gap-7">
-                  <img className="lg:w-[200px] md:w-[200px] w-[170px] color-red shadow-xl" src={sa} />
-                  <img className=" mt-24 color-red" src={a} />
+                    <LazyLoadImage
+              effect= "blur" loading="lazy" className="lg:w-[200px] md:w-[200px] w-[170px] color-red shadow-xl rounded rounded-[10px]" src="/images/QR Code.png" />
+                  <div className="mt-[150px] flex gap-x-3">
+                  <a href="https://play.google.com/store/apps/details?id=com.bringin.io" target="_blank">
+
+                    <LazyLoadImage
+              effect= "blur" loading="lazy" className="  w-[32px] h-[35px]" src="/images/pap.png" />
+                  </a>
+                    <LazyLoadImage
+              effect= "blur" loading="lazy" className=" h-[35px] " src="/images/pml.png" />
+                  <a href=" https://apps.apple.com/app/bringin-instant-hiring-app/id6463415765" target="_blank">
+
+                    <LazyLoadImage
+              effect= "blur" loading="lazy" className=" w-[32px] h-[35px]" src="/images/mam.png" />
+                  </a>
+
+                  </div>
                 </div>
               </div>
             </div>

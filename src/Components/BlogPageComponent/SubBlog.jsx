@@ -1,17 +1,12 @@
 import { Link, useLoaderData } from "react-router-dom";
 import AppLogo from "../App/AppLogo";
-import l from "../../assets/guidline/Line 12.svg";
-import Vector from "../../assets/commonlogo/Vector.svg";
 import { useEffect, useState } from "react";
 import Spinner from "../Spinner/Spinner";
-import useTitle from "../../hooks/useTitle";
-import fr from "../../assets/blog/Frame.svg";
-import c from "../../assets/commonlogo/go.svg";
-import Group from "../../assets/blog/Group.svg";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 const DegitalMarketing = () => {
-  useTitle("Blogs - Bringin");
-
+ 
   const subBlog = useLoaderData();
   const [cetagory, setCetagory] = useState([]);
   const [isLoding, setIsLoding] = useState(false);
@@ -43,22 +38,33 @@ const DegitalMarketing = () => {
   return (
     <div className="mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl ">
       <div className="">
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5 ">
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 lg:gap-5 ">
           <div className="col-span-2 my-20">
             <div className="flex gap-1 items-center mb-4">
               <div>
-                <img alt="bringin image" src={Group} />
+                <LazyLoadImage
+                  effect="blur"
+                  alt="bringin image"
+                  src="/images/blog/Group.svg"
+                />
               </div>
               <div>
                 <h1 className="text-[12px] text-[#8C8C8C]">
-                  Home / { first?.categoryName?  first.categoryName : ''}
+                  Home / {first?.categoryName ? first.categoryName : ""}
                 </h1>
               </div>
             </div>
             <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-4">
               {subBlog.length > 0 &&
                 subBlog.map((sb) => {
-                  const { img, blogTitle, authorName, description, _id, published_date } = sb;
+                  const {
+                    img,
+                    blogTitle,
+                    authorName,
+                    description,
+                    _id,
+                    published_date,
+                  } = sb;
 
                   return (
                     <div
@@ -66,7 +72,8 @@ const DegitalMarketing = () => {
                       className="card card-compact w-96 bg-base-100 "
                     >
                       <div>
-                        <img
+                        <LazyLoadImage
+                          effect="blur"
                           src={img}
                           alt="bringin image"
                           className="rounded-xl object-cover h-[274px] w-[388px]"
@@ -76,9 +83,19 @@ const DegitalMarketing = () => {
                         <h2 className="card-title">{blogTitle} </h2>
                         <div className="flex gap-5 my-1">
                           <p>by {authorName}</p>
-                          <img className="w-[3px]" alt="bringin image" src={l} />{" "}
-                          <p>{published_date.slice(0,8)}</p>
-                          <img className="w-[3px]" alt="bringin image" src={l} />{" "}
+                          <LazyLoadImage
+                            effect="blur"
+                            className="w-[3px]"
+                            alt="bringin image"
+                            src="/images/guidline/Line 12.svg"
+                          />{" "}
+                          <p>{published_date.slice(0, 8)}</p>
+                          <LazyLoadImage
+                            effect="blur"
+                            className="w-[3px]"
+                            alt="bringin image"
+                            src="/images/guidline/Line 12.svg"
+                          />{" "}
                           <p>No Comments</p>
                         </div>
                         <p>
@@ -91,10 +108,13 @@ const DegitalMarketing = () => {
                         <div className="card-actions justify-start">
                           <button className="bg-[#0077B5] w-[101px] h-[26px] text-white">
                             <div className="flex items-center">
-                              <p> Read More</p>
-                              <img
+                              <Link to={`/blog/${_id}`}>
+                                <p> Read More</p>
+                              </Link>
+                              <LazyLoadImage
+                                effect="blur"
                                 alt="bringin image"
-                                src={fr}
+                                src="/images/blog/Frame.svg"
                                 className="w-5 mt-[2px] pr-3"
                               />{" "}
                             </div>
@@ -107,8 +127,8 @@ const DegitalMarketing = () => {
             </div>
           </div>
 
-          <div>
-            <div className="my-20 ml-2">
+          <div className="lg:flex-none flex justify-center">
+            <div className="my-20 ">
               <div className="">
                 <div className="mb-[30px]">
                   <input
@@ -133,7 +153,8 @@ const DegitalMarketing = () => {
                     .map((re) => (
                       <div key={re._id} className="mt-10 flex gap-4">
                         <div className="">
-                          <img
+                          <LazyLoadImage
+                            effect="blur"
                             alt="bringin image"
                             src={re.img}
                             className="object-cover w-[120px] h-[75px] rounded"
@@ -146,10 +167,14 @@ const DegitalMarketing = () => {
                             </h1>
                           </Link>
                           <div className="flex gap-[1px]">
-                            <img src={c} alt="bringin image"></img>
+                            <LazyLoadImage
+                              effect="blur"
+                              src="/images/commonlogo/go.svg"
+                              alt="bringin image"
+                            ></LazyLoadImage>
                             <p className="text-[10px]">{re.published_date}</p>
                           </div>{" "}
-                          <p className="text-[10px]">By Bringin Career Guide</p>
+                          <p className="text-[10px]">By Unbolt Career Guide</p>
                         </div>
                       </div>
                     ))}
@@ -161,20 +186,21 @@ const DegitalMarketing = () => {
                   <div className="w-[373px] h-[637px]  shadow-[0_8px_60px_rgb(0,0,0,0.1)]  bg-white p-5">
                     <div className="border-b-[3px] w-[125px]  border-[#0077B5] ">
                       <p className="text-[16px] font-semibold pb-[10px]">
-                       Blog categories
+                        Blog categories
                       </p>
                     </div>
                     {cetagor.map((ca) => {
                       return (
                         <Link
                           key={ca._id}
-                          to={`/catagory/blogs/${ca.categoryName}`}
+                          to={`/catagory/blog/${ca.categoryName}`}
                         >
                           <div className="mt-10 flex gap-4 justify-between mb-2">
                             <p className="text-[16px]">{ca.categoryName}</p>
-                            <img
+                            <LazyLoadImage
+                              effect="blur"
                               alt="bringin image"
-                              src={Vector}
+                              src="/images/commonlogo/Vector.svg"
                               className="w-[14px] h-[14px]"
                             />
                           </div>
@@ -188,7 +214,7 @@ const DegitalMarketing = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-center mt-10">
+      <div className="flex justify-center mt-5 lg:mt-10">
         <AppLogo></AppLogo>
       </div>
     </div>

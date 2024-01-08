@@ -1,5 +1,8 @@
 import { useState } from "react";
-
+import Modal from 'react-modal';
+import AppLinkGetModal from "../ShereComponent/VerifyComponent/AppLinkGetModal";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 const Chat = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [message, setMessage] = useState("");
@@ -16,12 +19,14 @@ const Chat = () => {
     }
   };
 
-  //   console.log(phoneNumber);
+
+  const [openModal, closeModal] = useState(false)
+
 
   const handleAppLinkSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch("http://localhost:3002/app_link", {
+      const response = await fetch("https://rsapp.unbolt.co/app_link", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,6 +39,7 @@ const Chat = () => {
       if (response.ok) {
         setMessage("Successfully Share the link via SMS");
         setPhoneNumber("");
+        closeModal(true);
         localStorage.setItem("number", JSON.stringify(phoneNumber));
         const u = localStorage.getItem("number");
         console.log(u);
@@ -52,7 +58,13 @@ const Chat = () => {
       <div className="shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] lg:h-[460px] rounded rounded-[10px] lg:mt-[90px] md:mt-[90px] mt-[50px] p-2">
         <div className="lg:flex lg:flex-row-reverse lg:justify-around  items-center  ">
           <div>
-            <img className="lg:w-[450px] " src="./images/chat.png" alt="" />
+          <LazyLoadImage
+              effect= "blur" className="lg:w-[450px] lg:w-[450px]" src="/images/chat.png"
+      
+            
+            alt="" 
+            loading="lazy"
+            />
           </div>
           <div className=" lg:flex-none md:flex-none flex justify-center">
             <div className="text-left lg:pt-0 md:pt-[30px] pt-[10px] ">
@@ -70,7 +82,7 @@ const Chat = () => {
                         Search
                       </label>
                       <div className="relative lg:ml-0 md:ml-[25px]">
-                        <div className="absolute lg:pt-[15px] md:pt-[15px] pt-[11px] left-0 flex items-center pl-5 pointer-events-none">
+                        <div className="absolute lg:pt-[15px] md:pt-[15px] pt-[9px] left-0 flex items-center pl-5 pointer-events-none">
                           <p className="text-[#787878]  text-[15px]">+880 ।</p>
                         </div>
                         <input
@@ -79,7 +91,7 @@ const Chat = () => {
                           value={phoneNumber}
                           onChange={handleInputChange}
                           // onBlur={handleBlur}
-                          className=" placeholder:text-[#C7C8C9] lg:h-[50px] md:h-[50px] h-[40px] placeholder:text-[14px] lg:placeholder:text-[15px] md:placeholder:text-[15px] lg:w-[356px]  md:w-[356px] w-full  rounded px-[75px] focus:outline-none  input shadow-[rgba(0,_0,_0,_0.24)_0px_2.5px_5px]"
+                          className=" placeholder:text-[#C7C8C9] lg:h-[50px] md:h-[50px] h-[40px] placeholder:text-[13px] lg:placeholder:text-[15px] md:placeholder:text-[15px] lg:w-[356px]  md:w-[356px] w-[300px]  rounded pl-[75px] focus:outline-none  input shadow-[rgba(0,_0,_0,_0.24)_0px_2.5px_5px] pb-[1px] placeholder:font-normal  "
                           placeholder="Enter 10 digit mobile number"
                         />
                       </div>
@@ -110,7 +122,7 @@ const Chat = () => {
                 {message ? (
                   <p className=" lg:text-start md:text-start text-center text-[14px] lg:w-3/5 md:w-3/5 w- mt-4 font-normals lg:ml-0 md:ml-[25px] mx-[10px] ">
                     {" "}
-                    Successfully Share the link via SMS
+                    Please check your phone SMS, we have successfully sent a download link.
                   </p>
                 ) : (
                   <p className="lg:text-start md:text-start text-center text-[14px] lg:w-3/5 md:w-3/5  mt-4 font-normals lg:ml-0 md:ml-[25px] mx-[10px] ">
@@ -123,6 +135,7 @@ const Chat = () => {
           </div>
         </div>
       </div>
+<AppLinkGetModal  visible={openModal} closeModal={closeModal}></AppLinkGetModal>
     </div>
   );
 };

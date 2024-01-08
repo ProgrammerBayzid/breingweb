@@ -1,0 +1,19 @@
+
+
+
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.bringin.io",
+      "sha256_cert_fingerprints": [
+        "5B3CE92F600683168CA8B45157FD4435C492D91DCC83117A82633F82F7905342",
+        "AE3345D269F2DE003AF555CE63D79E528F55831E5DD5215D970973F39AF822B0",
+        "73:2F:AC:8C:9D:20:36:36:E4:37:54:12:02:64:01:3B:8C:DB:99:F9:64:2C:90:B1:45:65:89:E3:61:39:B2:B5"
+      ]
+    }
+  }
+]

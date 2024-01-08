@@ -1,18 +1,47 @@
-import useTitle from "../../hooks/useTitle";
+import { Helmet } from "react-helmet";
 import AppLogo from "../App/AppLogo";
 import Priching from "./Priching";
+import { useEffect } from "react";
  
 const TermsCondition = () => {
-  useTitle('Terms & Conditions')
+  useEffect(() => {
+    
+    const script = document.createElement("script");
 
+     
+    script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1556748687572177";
+    script.async = true;
+    script.crossOrigin = "anonymous";
+
+     document.head.appendChild(script);
+
+     return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
   return (
-    <div className="my-[70px] mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl">
+    <div className="lg:my-[70px] my-[20px] mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl">
+      <Helmet>
+                <meta charSet="utf-8" />
+                <title>Read our terms & conditions | Unbolt Chat Based Hiring App </title>
+                <meta name="description" content="Navigate our terms and conditions. Clear guidelines for a seamless experience on Unbolt, your trusted instant hiring platform." />
+                <link rel="canonical" href="http://unbolt.co/terms-and-conditions" />
+                <script async src="https://www.googletagmanager.com/gtag/js?id=G-KKFH10XGFV"></script>
+        <script>
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-KKFH10XGFV');
+          `}
+        </script>
+            </Helmet>
       <div className="lg:mx-12">
         <h1 className=" text-[#023C5B] text-center font-semibold	 lg:text-[40px] md:text-[30px] text-[25px] mb-7">
-          Bringin - Terms & Conditions
+          Unbolt - Terms & Conditions
         </h1>
         <p className="my-10 px-5 text-[#6A6A6A] text-[21px] font-medium">
-          Thank you for using Bringin mobile and web application services.
+          Thank you for using Unbolt mobile and web application services.
           Please read this page carefully, these Terms and Conditions govern the
           conditions of use of all services provided by the Company (“Services”)
           and apply to all customers who use the Services:
@@ -23,10 +52,10 @@ const TermsCondition = () => {
               <p className="font-semibold text-[21px]">1. General Rules</p>
               <p className="text-[#6A6A6A] text-[21px] font-medium">
                 These Terms and Conditions (Amended from time to time by
-                Bringin), together with your Advertising and Candidate Search
+                Unbolt), together with your Advertising and Candidate Search
                 Service Agreement (if applicable), form a binding agreement (the
-                "Agreement") between you and Bringin. Your access to or use of
-                the Bringin Web Sites or Services indicates your acceptance of
+                "Agreement") between you and Unbolt. Your access to or use of
+                the Unbolt Web Sites or Services indicates your acceptance of
                 these Terms and Conditions. You are agreeing to use the Sites at
                 your own risk.
               </p>
@@ -43,7 +72,7 @@ const TermsCondition = () => {
                 sites at your own risk. Moreover, since we do not verify all the
                 sites that the job candidates provide in their CV or while you
                 are contact with them, you should use them at your own risk.
-                Bringin does not take any responsibility of those. But you are
+                Unbolt does not take any responsibility of those. But you are
                 encouraged to read these terms before using our website or
                 service.
               </p>
@@ -62,7 +91,7 @@ const TermsCondition = () => {
                 When you create your account as a recruiter, you must ensure
                 that the information you provided is 100% correct. Because you
                 have to bear the responsibility of the information of your
-                company or service. Bringin will not be liable for any kind of
+                company or service. Unbolt will not be liable for any kind of
                 illegal aspects that you have inputted. If you try to provide
                 any false information, we will immediately terminate your
                 account. You will be responsible for any loss we or anyone else
@@ -79,7 +108,7 @@ const TermsCondition = () => {
                 When you open an account as a job seeker or present yourself for
                 an interview, ensure that all the information you provide in
                 your profile is correct. You are solely responsible for the
-                information provided in your account. Bringin will not bear any
+                information provided in your account. Unbolt will not bear any
                 responsibility.
               </p>
             </div>
@@ -88,20 +117,20 @@ const TermsCondition = () => {
                 4. Content, Copyright or Links
               </div>
               <p className="mb-7 text-[#6A6A6A] text-[21px] font-medium">
-                A) Bringin owns the full rights to any imgs, content or
-                anything else you upload. Bringin reserves the right to delete
+                A) Unbolt owns the full rights to any imgs, content or
+                anything else you upload. Unbolt reserves the right to delete
                 or store any of that content if needed.
               </p>
               <p className="mb-7 text-[#6A6A6A] text-[21px] font-medium">
                 B) Copyrights and Intellectual Property Rights of all
-                information provided by Bringin (such as contents and
-                information) belong to Bringin Technologies Limited. However,
+                information provided by Unbolt (such as contents and
+                information) belong to Unbolt Technologies Limited. However,
                 information such as product name, company name and logos include
                 trademarks and registered trademarks possessed by each company.
               </p>
               <p className="mb-7 text-[#6A6A6A] text-[21px] font-medium">
                 C) If any recruiter or job seeker provide any links of external
-                sites administered by third parties. Bringin shall not be held
+                sites administered by third parties. Unbolt shall not be held
                 responsible for the availability or content of external sites.
               </p>
               <p className="mb-7 text-[#6A6A6A] text-[21px] font-medium">
@@ -117,16 +146,16 @@ const TermsCondition = () => {
               </p>
               <p className="mb-7 text-[#6A6A6A] text-[21px] font-medium">
                 This site contains various properties and elements like
-                graphics, content, bringin is owner of those things. The service
+                graphics, content, Unbolt is owner of those things. The service
                 is protected by copyright, trademark, and other laws of
                 Bangladesh. Any of our assets or service may not be use
                 elsewhere without our prior permission.
               </p>
               <p className="mb-7 text-[#6A6A6A] text-[21px] font-medium">
-                How ever a user or anyone use the content or anything of Bringin
+                How ever a user or anyone use the content or anything of Unbolt
                 for personal or commercial use in that case he has to clearly
                 include the copyright, trademark and have to provide link to the
-                original web page and will have to agree that Bringin is the
+                original web page and will have to agree that Unbolt is the
                 sole owner of all the properties of this site and services.
               </p>
               <p className="mb-7 text-[#6A6A6A] text-[21px] font-medium">
@@ -134,7 +163,7 @@ const TermsCondition = () => {
                 <span className="font-semibold text-[21px] text-black">
                   Report:
                 </span>
-                <span> </span> Report: If someone bothering you then you should
+                <span> </span>If someone bothering you then you should
                 send appropriate evidence (Screenshot, video or audio) about the
                 circumstances. We will verify and if it violates any of our
                 policy, then we will definitely take legal action against him.
@@ -150,7 +179,7 @@ const TermsCondition = () => {
                 We usually collect your personal data from the information you
                 submit during the time of creating account. This will typically
                 be through the forms and documents used when you create your
-                account with us or sign up to Bringin. We may collect your name,
+                account with us or sign up to Unbolt. We may collect your name,
                 phone number, email id, pin code, your location, your company
                 profile, Resumes and others information you provide when you
                 sign up to your account or from your job advertisement.
@@ -161,7 +190,7 @@ const TermsCondition = () => {
               7. How We Use Personal Data{" "}
             </p>
             <p className="mb-7 text-[#6A6A6A] text-[21px] font-medium">
-              At Bringin, we collect and use your personal data to provide and
+              At Unbolt, we collect and use your personal data to provide and
               improve our Service, comply with legal obligations, and for other
               legitimate business purposes. We may use your personal data to:
             </p>
@@ -218,7 +247,7 @@ const TermsCondition = () => {
               </p>
               <p className="mb-7 text-[#6A6A6A] text-[21px] font-medium">
                 {" "}
-                Bringin never disclose your data to any third-party agency
+                Unbolt never disclose your data to any third-party agency
                 without your authorization.
               </p>
             </div>
@@ -228,8 +257,8 @@ const TermsCondition = () => {
                 9. Product, Services and Pricing{" "}
               </p>
               <p className="text-[#6A6A6A] text-[21px] font-medium">
-                Bringin is Bangladesh’s direct first chat-based instant hiring
-                platform. Through bringin app we’re connecting job seekers and
+                Unbolt is Bangladesh’s direct first chat-based instant hiring
+                platform. Through Unbolt app we’re connecting job seekers and
                 recruiters in Bangladesh. Our Service is completely free for job
                 seekers. But for the Recruiters who are looking for the exact
                 AI-matched relevant candidate for their company, will get a 3
@@ -238,7 +267,7 @@ const TermsCondition = () => {
               </p>
               <p className="mt-4 text-[#6A6A6A] text-[21px] font-medium">
                 Recruiters can choose between the different plan options to
-                connect with more candidates on bringin. Payments are made
+                connect with more candidates on Unbolt. Payments are made
                 monthly as per the selected plan.
               </p>
             </div>
@@ -250,16 +279,16 @@ const TermsCondition = () => {
                 10. Payment Method and Conditions{" "}
               </p>
               <p className="text-[#6A6A6A] text-[21px] font-medium">
-                A valid payment method registered within the Bringin In App,
+                A valid payment method registered within the Unbolt in App,
                 including MFS, Internet Banking, and Aamarpay supported Card
                 Services, is required to process the payment for your
-                subscription. It is your responsibility to provide Bringin with
+                subscription. It is your responsibility to provide Unbolt with
                 accurate billing information, including your full name, address,
                 contact number, and a valid payment method.
               </p>
               <p className="text-[#6A6A6A] text-[21px] font-medium">
                 In the event that automatic billing fails to occur for any
-                reason, Bringin will provide you with instructions to proceed
+                reason, Unbolt will provide you with instructions to proceed
                 with manual payment.
               </p>
             </div>
@@ -277,7 +306,7 @@ const TermsCondition = () => {
               </p>
               <p className=" text-[#6A6A6A] text-[21px] font-medium">
                 Recruiters can choose between the different plan options to
-                connect with more candidates on bringin. Payments are made
+                connect with more candidates on Unbolt. Payments are made
                 monthly as per the selected plan.
               </p>
             </div>
@@ -286,17 +315,17 @@ const TermsCondition = () => {
 
             <div className="my-22">
               <p className=" text-[#6A6A6A] font-medium text-[21px]">
-                If you have any more questions about bringin terms and condition
+                If you have any more questions about Unbolt terms and condition
                 please contact us at{" "}
                 <span className="text-[#0077B5] font-semibold">
-                  hello@bringin.io
+                  hello@unbolt.co
                 </span>
               </p>
             </div>
           </div>
         </div>
       </div>
-      <div className='flex justify-center mt-10'>
+      <div className='flex justify-center mt-0 lg:mt-10'>
            <AppLogo></AppLogo>
            </div>
     </div>

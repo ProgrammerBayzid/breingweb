@@ -1,52 +1,53 @@
 import AppLogo from "../App/AppLogo";
-import useTitle from "../../hooks/useTitle";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import SearchComponent from "../SearchComponent/SearchComponent";
 import SiCandidats from "./SiCandidats";
-import Spinner from "../Spinner/Spinner"
+import Spinner from "../Spinner/Spinner";
+import { Helmet } from "react-helmet";
 
 const SearchCandidate = () => {
-  useTitle("Candidates - Bringin");
-
+ 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const name = queryParams.get("name");
-  const locationParam = queryParams.get("location");
+  const name = queryParams.get("skill");
+  const locationParam = queryParams.get("division");
   const [searchResults, setSearchResults] = useState([]);
   console.log(searchResults);
   const [isLoding, setIsLoding] = useState(false);
-
-
+  const [isLodingr, setIsLodingr] = useState(false);
+  // candidates_search_skill_division
   useEffect(() => {
     async function fetchSearchResults() {
       try {
-        const apiUrl = `https://rsapp.bringin.io/clint_candidate_search?name=${name}&location=${locationParam}`;
+        const apiUrl = `https://rsapp.unbolt.co/candidates_search_skill_division?skill=${name}&division=${locationParam}`;
         const response = await axios.get(apiUrl);
         setSearchResults(response.data);
-        setIsLoding(true);
-
+        // setIsLoding(true);
+        if(response.data){
+          setIsLoding(true);
+          setIsLodingr(true);
+        }
       } catch (error) {
         console.error("Error fetching search results:", error);
       }
     }
 
-    if (name && locationParam) {
+    if (name || locationParam || ( name && locationParam) ) {
+      setIsLodingr(false);
       fetchSearchResults();
     }
   }, [name, locationParam]);
 
-
-
-const result = searchResults
+  const result = searchResults;
 
   const [isActive, setIsActive] = useState(false);
   const [isActivesalary, setIsActivesalary] = useState(false);
   const [experince, setExperince] = useState([]);
 
   useEffect(() => {
-    fetch("https://rsapp.bringin.io/admin_exprience")
+    fetch("https://rsapp.unbolt.co/admin_exprience")
       .then((res) => res.json())
       .then((data) => {
         setExperince(data);
@@ -58,7 +59,7 @@ const result = searchResults
   const [salaries, setSalaries] = useState([]);
 
   useEffect(() => {
-    fetch("https://rsapp.bringin.io/admin/salarie")
+    fetch("https://rsapp.unbolt.co/admin/salarie")
       .then((res) => res.json())
       .then((data) => {
         setSalaries(data);
@@ -70,8 +71,9 @@ const result = searchResults
   const salary = salaries;
   console.log(salary);
 
-  const [items, setItems] = useState(result);
+  const [items, setItems] = useState(searchResults);
   console.log(items);
+  const [resultsFound, setResultsFound] = useState(true);
 
   const [experienceValue, setExperienceValue] = useState("");
   console.log(experienceValue);
@@ -81,41 +83,63 @@ const result = searchResults
   };
 
   const [salaryValue, setSalaryValue] = useState("");
-  console.log(salaryValue);
+  const [selectedSalaryRange, setSelectedSalaryRange] = useState("");
+
   const handleSalaryClick = (value) => {
-    setSalaryValue(value);
+    if (value === "Negotiable") {
+      setSalaryValue("Negotiable");
+    } else {
+      setSalaryValue(value);
+    }
     setIsActivesalary(value);
+    setSelectedSalaryRange(value);
+    setActiveButton(false);
   };
+
   const applyFilters = () => {
-    let updatedList = result;
+    let updatedList = searchResults;
     console.log(updatedList);
-    // experiencedlevel Filter
     if (experienceValue) {
       updatedList = updatedList.filter(
         (item) => item?.userid?.experiencedlevel?.name == experienceValue
       );
     }
-
-    // salary Filter
-    if (salaryValue) {
-      updatedList = updatedList.filter(
-        (item) =>
-          item?.careerPreference[0]?.salaray?.min_salary?.salary == salaryValue
-      );
+    if (selectedSalaryRange) {
+      if (selectedSalaryRange === "Negotiable") {
+        updatedList = updatedList.filter((item) => {
+          const candidateSalary =
+            item?.careerPreference[0]?.salaray?.min_salary?.salary;
+          return candidateSalary === "Negotiable";
+        });
+      } else {
+        const [minSalary, maxSalary] = selectedSalaryRange.split("-");
+        updatedList = updatedList.filter((item) => {
+          const candidateSalary = parseFloat(
+            item?.careerPreference[0]?.salaray?.min_salary?.salary
+          );
+          return (
+            candidateSalary >= parseFloat(minSalary) &&
+            candidateSalary <= parseFloat(maxSalary)
+          );
+        });
+      }
     }
+
+    !updatedList.length ? setResultsFound(false) : setResultsFound(true);
 
     setItems(updatedList);
   };
 
   useEffect(() => {
     applyFilters();
-  }, [experienceValue, salaryValue, result]);
+  }, [experienceValue, searchResults, selectedSalaryRange, salaryValue]);
 
   const [activeButton, setActiveButton] = useState(false);
   const [activeButtonE, setActiveButtonE] = useState(false);
 
   const salaryAll = () => {
     setSalaryValue("");
+    setSelectedSalaryRange("");
     setIsActivesalary(false);
     setActiveButton(true);
   };
@@ -132,10 +156,41 @@ const result = searchResults
     setActiveButton(false);
     setExperienceValue("");
     setSalaryValue("");
-
+    setSelectedSalaryRange("");
   };
 
 
+
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const [displayCount, setDisplayCount] = useState(6); // Initially, display 3 items
+
+  // Handle the "View More" button click
+  const handleViewMoreClick = () => {
+    // If token exists, show all items
+    if (token && displayCount < items.length) {
+      setDisplayCount((prevCount) => prevCount + 10);
+    } else {
+      // If token doesn't exist, redirect to the login route
+      navigate("/recruiters-login");
+    }
+  };
+  const shouldShowViewMoreButton = displayCount < items.length;
+  const ex = [
+    {
+      functionalname: "Flutter",
+    },
+    {
+      functionalname: "Node JS Engineer",
+    },
+    {
+      functionalname: "Marketing Director",
+    },
+    {
+      functionalname: "Web Full Stack Engineer",
+    },
+  ];
+ 
   if (isLoding === false) {
     return (
       <div className="">
@@ -146,129 +201,255 @@ const result = searchResults
 
   return (
     <div className="my-10 ">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Candidates for {name} | Unbolt Chat Based Hiring App </title>
+        <meta
+          name="description"
+          content=" At Unbolt-instant hiring app, Both Job Seekers and Recruiters can chat directly, also can attend instant in-app video call interviews and get hired instantly."
+        />
+        <link rel="canonical" href="http://unbolt.co" />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-KKFH10XGFV"></script>
+        <script>
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-KKFH10XGFV');
+          `}
+        </script>
+      </Helmet>
       <div className="mt-20">
-        <SearchComponent></SearchComponent>
+        <SearchComponent ></SearchComponent>
       </div>
       <div>
-          <h1 className="text-center lg:text-[22px] md:text-[20px] text-[20px]  font-semibold mt-[50px]">
-            Hire the Best {name? name : "null"} Professionals across {locationParam? locationParam : "null"}, Bangladesh{" "}
-          </h1>
-        </div>
+        <h1 className="text-center lg:text-[22px] md:text-[20px] text-[20px]  font-semibold mt-[50px]">
+          Hire the Best {name ? name : ""} Professionals across{" "}
+          {locationParam ? locationParam  : ""}{locationParam ? ","  : ""} Bangladesh{" "}
+        </h1>
+      </div>
 
-      <div className="lg:mx-[40px] mx-[10px] my-10 " >
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 lg:gap-5 md:gap-0 ">
-          <div className="lg:col-span-2 mx-auto  ">
-            {items.map((singlecanditade) => (
-              <SiCandidats
-                key={singlecanditade.id}
-                singlecanditade={singlecanditade}
-              ></SiCandidats>
-            ))}
+      <div className="lg:mx-[40px] mx-[10px] my-10 ">
+        <div className="relative bg-[url(/src/bgimages/ibg.png)] bg-auto	 bg-bottom bg-no-repeat pb-[150px]">
+         {
+          isLodingr === false ? <Spinner></Spinner>:
+          <div>
 
-            <div className="w-[200px] h-[57px] rounded rounded-full bg-[#0077B5] mx-auto mt-24">
-              <h1 className="text-[20px] font-semibold text-center text-white pt-[15px] cursor-pointer">
-                View More
-              </h1>
-            </div>
-          </div>
-
-          <div className="lg:ml-0 md:mx-auto mx-auto lg:mt-0 md:mt-0 mt-20">
-            <div className="">
-              <div className="lg:w-[405px] h-full shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] p-5 ">
-                <div className="">
-                  <div className="flex justify-between">
-                    <h1 className="text-[20px] font-semibold mb-[10px]">
-                      Required Experience
-                    </h1>
-                    <p
-                      onClick={reset}
-                      className="text-[#00A0DC] text-[16px] font-semibold cursor-pointer"
-                    >
-                      Reset
-                    </p>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <button
-                      onClick={experinceAll}
-                      className={
-                        activeButtonE
-                          ? "lg:w-[187px] h-[50px] text-[16px] text-[#212427] text-[#0077B5] border border-[#0077B5] bg-white"
-                          : "lg:w-[187px] h-[50px] text-[16px] text-[#212427] bg-[#F6FCF6] hover:border border-[#0077B5] hover:text-[#0077B5] hover:bg-white"
-                      }
-                    >
-                      Any Experience
-                    </button>
-                    {experince.map((exp, i) => {
-                      return (
-                        <button
-                          key={i}
-                          onClick={() => handleExperienceClick(exp?.name)}
-                          className={
-                            isActive == exp?.name
-                              ? "lg:w-[187px] h-[50px] text-[16px] text-[#212427] text-[#0077B5] border border-[#0077B5] bg-white"
-                              : "lg:w-[187px] h-[50px] text-[16px] text-[#212427] bg-[#F6FCF6] hover:border border-[#0077B5] hover:text-[#0077B5] hover:bg-white"
-                          }
+            {result.length > 0 ? (
+             
+              <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 lg:gap-5 md:gap-0 ">
+               
+                {resultsFound ? (
+                  <div className="lg:col-span-2 mx-auto  ">
+                    {items?.slice(0, displayCount).map((singlecanditade) => (
+                      <SiCandidats
+                        key={singlecanditade.id}
+                        singlecanditade={singlecanditade}
+                      ></SiCandidats>
+                    ))}
+  
+                    {shouldShowViewMoreButton && (
+                      <div className="lg:w-[200px] w-[150px] h-[40px] lg:h-[57px] rounded rounded-full bg-[#0077B5] mx-auto lg:mt-24 mt-10">
+                        <h1
+                          onClick={handleViewMoreClick}
+                          className="text-[20px] font-semibold text-center text-white lg:pt-[15px] pt-[7px] cursor-pointer"
                         >
-                          {exp?.name}
-                        </button>
-                      );
-                    })}
+                          {token ? "View More" : "View More"}
+                        </h1>
+                      </div>
+                    )}
+                   
                   </div>
-                </div>
-                <hr className="my-5"></hr>
-                <div className="">
-                  <h1 className="text-[20px] font-semibold ">Salary</h1>
-                  <div className="grid grid-cols-2 gap-4 mt-[10px]">
-                    <button
-                      onClick={salaryAll}
-                      className={
-                        activeButton
-                          ? "lg:w-[187px] h-[50px] text-[16px] text-[#212427] text-[#0077B5] border border-[#0077B5] bg-white"
-                          : "lg:w-[187px] h-[50px] text-[16px] text-[#212427] bg-[#F6FCF6] hover:border border-[#0077B5] hover:text-[#0077B5] hover:bg-white"
-                      }
-                    >
-                      All
-                    </button>
-
-                    {salary.map((s, i) => {
-                      return (
-                        <button
-                          key={i}
-                          onClick={() => handleSalaryClick(s?.salary)}
-                          className={
-                            isActivesalary == s?.salary
-                              ? "lg:w-[187px] h-[50px] text-[16px] text-[#212427] text-[#0077B5] border border-[#0077B5] bg-white"
-                              : "lg:w-[187px] h-[50px] text-[16px] text-[#212427] bg-[#F6FCF6] hover:border border-[#0077B5] hover:text-[#0077B5] hover:bg-white"
-                          }
-                        >
-                          {s?.salary}
-                          {s?.salary == "Negotiable" ? "" : "-"}
-                          {s?.salary == "Negotiable" ? "" : s?.salary + 5}
-                          {s?.salary == "Negotiable" ? "" : "K BDT"}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                <hr className="my-5"></hr>
-
-                <div className="">
-                  <h1 className="text-[20px] font-semibold">
-                    {" "}
-                    Most searched Jobs{" "}
-                  </h1>
+                ) : (
+                  <p className="lg:col-span-2 mx-auto lg:h-[400px] flex items-center justify-center font-medium text-[30px] tezt-[#212427]">
+                    No candidates found
+                  </p>
+                )}
+  
+                <div className="lg:ml-0 md:mx-auto mx-auto lg:mt-0 md:mt-0 mt-10">
                   <div className="">
-                    <div className="mt-5">
-                      <p className="mb-3 text-[18px] text-[#212427]">Flutter Developer</p>
-                      <p className="mb-3 text-[18px] text-[#212427]">Sales executive</p>
-                      <p className="mb-3 text-[18px] text-[#212427]">HR Executive</p>
+                    <div className="lg:w-[405px] h-full shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] p-5 ">
+                      <div className="">
+                        <div className="lg:flex lg:justify-between mb-2">
+                          <h1 className="text-[20px] font-semibold mb-[10px] text-center">
+                            Required Experience
+                          </h1>
+                          <p
+                            onClick={reset}
+                            className="text-[#00A0DC] text-center text-[16px] font-semibold cursor-pointer"
+                          >
+                            Reset
+                          </p>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <button
+                            onClick={experinceAll}
+                            className={
+                              activeButtonE
+                                ? "lg:w-[187px] h-[50px] text-[16px] text-[#212427] text-[#0077B5] border border-[#0077B5] bg-white"
+                                : "lg:w-[187px] h-[50px] text-[16px] text-[#212427] bg-[#F6FCF6] hover:border border-[#0077B5] hover:text-[#0077B5] hover:bg-white"
+                            }
+                          >
+                            Any Experience
+                          </button>
+                          {experince.map((exp, i) => {
+                            return (
+                              <button
+                                key={i}
+                                onClick={() => handleExperienceClick(exp?.name)}
+                                className={
+                                  isActive == exp?.name
+                                    ? "lg:w-[187px] h-[50px] text-[16px] text-[#212427] text-[#0077B5] border border-[#0077B5] bg-white"
+                                    : "lg:w-[187px] h-[50px] text-[16px] text-[#212427] bg-[#F6FCF6] hover:border border-[#0077B5] hover:text-[#0077B5] hover:bg-white"
+                                }
+                              >
+                                {exp?.name}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                      <hr className="my-5"></hr>
+                      <div className="">
+                        <h1 className="text-[20px] font-semibold ">Salary</h1>
+  
+                        <div className="grid grid-cols-2 gap-4 mt-[10px]">
+                          <button
+                            onClick={salaryAll}
+                            className={
+                              activeButton
+                                ? "lg:w-[187px] h-[50px] text-[#0077B5] border border-[#0077B5] bg-white text-[16px] text-[#212427]"
+                                : "lg:w-[187px] h-[50px] bg-[#F6FCF6] hover:border border-[#0077B5] hover:text-[#0077B5] hover:bg-white text-[16px] text-[#212427]"
+                            }
+                          >
+                            All
+                          </button>
+                          <button
+                            onClick={() => handleSalaryClick("Negotiable")}
+                            className={
+                              isActivesalary === "Negotiable"
+                                ? "lg:w-[187px] h-[50px] text-[#0077B5] border border-[#0077B5] bg-white text-[16px] text-[#212427]"
+                                : "lg:w-[187px] h-[50px] bg-[#F6FCF6] hover:border border-[#0077B5] hover:text-[#0077B5] hover:bg-white text-[16px] text-[#212427]"
+                            }
+                          >
+                            Negotiable
+                          </button>
+                          <button
+                            onClick={() => handleSalaryClick("5K-50K")}
+                            className={
+                              isActivesalary === "5K-50K"
+                                ? "lg:w-[187px] h-[50px] text-[#0077B5] border border-[#0077B5] bg-white text-[16px] text-[#212427]"
+                                : "lg:w-[187px] h-[50px] bg-[#F6FCF6] hover:border border-[#0077B5] hover:text-[#0077B5] hover:bg-white text-[16px] text-[#212427]"
+                            }
+                          >
+                            5K-50K
+                          </button>
+                          <button
+                            onClick={() => handleSalaryClick("50K-100K")}
+                            className={
+                              isActivesalary === "50K-100K"
+                                ? "lg:w-[187px] h-[50px] text-[#0077B5] border border-[#0077B5] bg-white text-[16px] text-[#212427]"
+                                : "lg:w-[187px] h-[50px] bg-[#F6FCF6] hover:border border-[#0077B5] hover:text-[#0077B5] hover:bg-white text-[16px] text-[#212427]"
+                            }
+                          >
+                            50K-100K
+                          </button>
+                          <button
+                            onClick={() => handleSalaryClick("100K-150K")}
+                            className={
+                              isActivesalary === "100K-150K"
+                                ? "lg:w-[187px] h-[50px] text-[#0077B5] border border-[#0077B5] bg-white text-[16px] text-[#212427]"
+                                : "lg:w-[187px] h-[50px] bg-[#F6FCF6] hover:border border-[#0077B5] hover:text-[#0077B5] hover:bg-white text-[16px] text-[#212427]"
+                            }
+                          >
+                            100K-150K
+                          </button>
+                          <button
+                            onClick={() => handleSalaryClick("150K-200K")}
+                            className={
+                              isActivesalary === "150K-200K"
+                                ? "lg:w-[187px] h-[50px] text-[#0077B5] border border-[#0077B5] bg-white text-[16px] text-[#212427]"
+                                : "lg:w-[187px] h-[50px] bg-[#F6FCF6] hover:border border-[#0077B5] hover:text-[#0077B5] hover:bg-white text-[16px] text-[#212427]"
+                            }
+                          >
+                            150K-200K
+                          </button>
+                          <button
+                            onClick={() => handleSalaryClick("200K-250K")}
+                            className={
+                              isActivesalary === "200K-250K"
+                                ? "lg:w-[187px] h-[50px] text-[#0077B5] border border-[#0077B5] bg-white text-[16px] text-[#212427]"
+                                : "lg:w-[187px] h-[50px] bg-[#F6FCF6] hover:border border-[#0077B5] hover:text-[#0077B5] hover:bg-white text-[16px] text-[#212427]"
+                            }
+                          >
+                            200K-250K
+                          </button>
+                          <button
+                            onClick={() => handleSalaryClick("250K-300K")}
+                            className={
+                              isActivesalary === "250K-300K"
+                                ? "lg:w-[187px] h-[50px] text-[#0077B5] border border-[#0077B5] bg-white text-[16px] text-[#212427]"
+                                : "lg:w-[187px] h-[50px] bg-[#F6FCF6] hover:border border-[#0077B5] hover:text-[#0077B5] hover:bg-white text-[16px] text-[#212427]"
+                            }
+                          >
+                            250K-300K
+                          </button>
+                          <button
+                            onClick={() => handleSalaryClick("250K-300K")}
+                            className={
+                              isActivesalary === "250K-300K"
+                                ? "lg:w-[187px] h-[50px] text-[#0077B5] border border-[#0077B5] bg-white text-[16px] text-[#212427]"
+                                : "lg:w-[187px] h-[50px] bg-[#F6FCF6] hover:border border-[#0077B5] hover:text-[#0077B5] hover:bg-white text-[16px] text-[#212427]"
+                            }
+                          >
+                            300K-350K
+                          </button>
+                          <button
+                            onClick={() => handleSalaryClick("250K-300K")}
+                            className={
+                              isActivesalary === "250K-300K"
+                                ? "lg:w-[187px] h-[50px] text-[#0077B5] border border-[#0077B5] bg-white text-[16px] text-[#212427]"
+                                : "lg:w-[187px] h-[50px] bg-[#F6FCF6] hover:border border-[#0077B5] hover:text-[#0077B5] hover:bg-white text-[16px] text-[#212427]"
+                            }
+                          >
+                            350K-400K
+                          </button>
+                         
+                        </div>
+                      </div>
+  
+                      <hr className="my-5"></hr>
+  
+                      <div className="">
+                      <h1 className="text-[19px] mb-3 font-semibold test-[#212427]">
+                        {" "}
+                        Most searched Candidates{" "}
+                      </h1>
+                      {ex.map((e, i) => (
+                        <div key={i}>
+                          <Link
+                            to={`/candidates/${e.functionalname}`}
+                          
+                          >
+                            <p className="mb-2 text-[18px] text-[#212427] font-normal">
+                              {e.functionalname}
+                            </p>
+                          </Link>
+                        </div>
+                      ))}
+                    </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              <p className="lg:h-[400px] flex items-center justify-center font-medium text-[30px] tezt-[#212427]">
+                No candidates found
+              </p>
+            )}
           </div>
+
+         }
         </div>
       </div>
       <div className="flex justify-center mt-10">
@@ -276,6 +457,7 @@ const result = searchResults
       </div>
     </div>
   );
+ 
 };
 
 export default SearchCandidate;

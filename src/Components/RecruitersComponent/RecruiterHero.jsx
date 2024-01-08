@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const RecruiterHero = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -7,6 +10,7 @@ const RecruiterHero = () => {
     const inputNumber = e.target.value.replace(/\D/g, "").replace(/^0+/, ""); // Remove non-digit characters
     setPhoneNumber(inputNumber);
   };
+  const navigate = useNavigate();
 
   const handleBlur = () => {
     if (phoneNumber.length < 10) {
@@ -16,55 +20,93 @@ const RecruiterHero = () => {
     }
   };
 
-  //   console.log(phoneNumber);
+  
 
-  const handleAppLinkSubmit = async (event) => {
+  console.log(phoneNumber);
+
+  // const handleRegisterSubmit = async (event) => {
+  //   event.preventDefault();
+  //   try {
+  //     const response = await fetch("https://rsapp.unbolt.co/singup", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         number: phoneNumber,
+  //         isRecruiter: 1,
+  //       }),
+  //     });
+  //     console.log("OTP GET");
+  //     if (response.ok) {
+  //       setMessage("OTP sent successfully!");
+  //       setPhoneNumber("");
+  //       localStorage.setItem("number", JSON.stringify(phoneNumber));
+  //       const u = localStorage.getItem("number");
+  //       console.log(u);
+  //       navigate("/verifications");
+  //     } else {
+  //       setMessage("Error sending OTP. Please try again later.");
+  //     }
+  //   } catch (err) {
+  //     setMessage("Error sending OTP. Please try again later.");
+  //   }
+  // };
+  const handleRegisterSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch("http://localhost:3002/app_link", {
+      const formattedPhoneNumber = "0" + phoneNumber; // Add '0' at the beginning
+      const response = await fetch("https://rsapp.unbolt.co/singup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          number: phoneNumber,
+          number: formattedPhoneNumber, // Use the formatted phone number
+          isRecruiter: 1,
         }),
       });
-      console.log("App Link GET");
+      console.log("OTP GET");
       if (response.ok) {
-        setMessage("Successfully Share the link via SMS");
+        setMessage("OTP sent successfully!");
         setPhoneNumber("");
-        localStorage.setItem("number", JSON.stringify(phoneNumber));
+        localStorage.setItem("number", JSON.stringify(formattedPhoneNumber));
         const u = localStorage.getItem("number");
         console.log(u);
-        event.target.reset();
+        navigate("/verifications");
       } else {
-        setMessage("Error sending App Link. Please try again later.");
+        setMessage("Error sending OTP. Please try again later.");
       }
     } catch (err) {
-      setMessage("Error sending App Link. Please try again later.");
+      setMessage("Error sending OTP. Please try again later.");
     }
   };
+
   console.log(message);
 
   return (
     <div className="relative bg-[url(/src/bgimages/rbg.png)] bg-auto	 bg-center-top bg-no-repeat">
       <div className="lg:h-[520px]">
         <div className="	 lg:flex lg:flex-row-reverse lg:justify-between md:flex md:flex-row-reverse md:justify-between lg:mx-[40px] md:mx-[10px] mx-[10px] ">
-          <div className=" lg:mt-[60px] md:mt-[40px]  h-[250px] lg:ml-0 md:ml-0 ml-16">
-            <img
-              className="  lg:w-[500px] lg:h-[500px] w-[250px] md:w-[350px] lg:pt-0 md:pt-0 pt-4 "
-              src="./images/rh.png"
-              alt=""
-            />
+          <div className=" lg:mt-[60px] md:mt-[40px]  h-[250px] lg:ml-0 md:ml-0 ml-0 lg:flex-none md:flex-none flex justify-center">
+            <div>
+            <LazyLoadImage
+              effect= "blur"
+                className="  lg:w-[480px] lg:h-[500px] w-[250px] md:w-[350px] lg:pt-0 md:pt-0 pt-4 "
+                src="/images/rh.png"
+                alt=""
+                loading="lazy"
+               
+              />
+            </div>
           </div>
           <div className="lg:text-start md:text-start text-center lg:w-2/3 md:w-2/3 lg:mt-[60px] md:mt-[40px] mt-[40px] py-2">
             <h1 className="lg:text-[37px] text-[22px] md:text-[24px] font-bold text-[#023C5B]">
-              Bringin is an app based hiring platform aims to introduce the
+            Unbolt is an app based hiring platform aims to introduce the
               concept of direct hiring in Bangladesh.
             </h1>
             <p className="lg:text-start md:text-start text-center mt-[25px] text-[20px] text-[#212427] ">
-              Introducing the pioneering chat-based instant hiring app tailored
+              Introducing the pioneering  Unbolt: Chat Based Hiring App tailored
               for Recruiters, HR Leaders, Business Owners, CTOs & CEOs. This
               innovative platform enables recruiters to engage in direct
               conversations with job seekers, seamlessly conduct in-app video
@@ -76,13 +118,13 @@ const RecruiterHero = () => {
                 <div className="lg:flex md:flex gap-5">
                   <form
                     className="lg:ml-0 md:ml-0 mx-[10px] lg:flex md:flex gap-5"
-                    onSubmit={handleAppLinkSubmit}
+                    onSubmit={handleRegisterSubmit}
                   >
                     <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
                       Search
                     </label>
                     <div className="relative lg:ml-0 md:ml-[0px]">
-                      <div className="absolute lg:pt-[15px] md:pt-[15px] pt-[11px] left-0 flex items-center pl-5 pointer-events-none">
+                      <div className="absolute lg:pt-[15px] md:pt-[15px] pt-[9.5px] left-0 flex items-center pl-5 pointer-events-none">
                         <p className="text-[#787878]  text-[15px]">+880 ।</p>
                       </div>
                       <input
@@ -91,7 +133,7 @@ const RecruiterHero = () => {
                         value={phoneNumber}
                         onChange={handleInputChange}
                         // onBlur={handleBlur}
-                        className=" placeholder:text-[#C7C8C9] lg:h-[50px] md:h-[50px] h-[40px] placeholder:text-[14px] lg:placeholder:text-[15px] md:placeholder:text-[15px] lg:w-[356px]  md:w-[356px] w-full  rounded px-[75px] focus:outline-none  input shadow-[rgba(0,_0,_0,_0.24)_0px_2.5px_5px]"
+                        className=" placeholder:text-[#C7C8C9] lg:h-[50px] md:h-[50px] h-[40px] placeholder:text-[14px] lg:placeholder:text-[15px] md:placeholder:text-[15px] lg:w-[356px]  md:w-[356px] w-[300px]  rounded pl-[75px] focus:outline-none  input shadow-[rgba(0,_0,_0,_0.24)_0px_2.5px_5px]"
                         placeholder="Enter 10 digit mobile number"
                       />
                     </div>

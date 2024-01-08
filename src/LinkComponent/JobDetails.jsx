@@ -1,15 +1,22 @@
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 import { Link, useLoaderData } from "react-router-dom";
-import useTitle from "../hooks/useTitle";
 import AppLinkModal from "../Components/ShereComponent/AppLinkModal";
 import { useState } from "react";
+import { Helmet } from "react-helmet";
+import { useEffect } from "react";
+import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import axios from "axios";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import "react-quill/dist/quill.bubble.css";
+import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
 
 const JobDetails = () => {
-  useTitle("Job Details - Bringin");
-  const [openModal, closeModal] = useState(false)
-
+  const [openModal, closeModal] = useState(false);
 
   const jobdetails = useLoaderData();
-  console.log(jobdetails);
+  // console.log(jobdetails);
 
   const {
     userid,
@@ -25,28 +32,173 @@ const JobDetails = () => {
     jobtype,
     postdate,
     salary,
-    job_location
+    job_location,
+    _id,
+    richText,
   } = jobdetails;
+
+  const jobDescriptionArray = JSON.parse(job_description);
+  const quillContent = {
+    ops: jobDescriptionArray.map((item) => ({
+      insert: item.insert,
+      attributes: item.attributes || {},
+    })),
+  };
+  const converter = new QuillDeltaToHtmlConverter(quillContent.ops, {});
+  const html = converter.convert();
+console.log(html);
+  const openAndroidApp = () => {
+    try {
+      if (!_id) {
+        throw new Error("The _id is missing or invalid.");
+      }
+      window.open(`bringin://app.bringin.io/job-details/${_id}`);
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  };
+  useEffect(() => {
+    openAndroidApp(); // Call openAndroidApp function when the component is mounted.
+  }, []);
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: "AIzaSyBqybgfOd1_p1YKH1nOPOuR_C8Nbfv3kQ0", // Replace with your Google Maps API key
+  });
+
+  const location = job_location.formet_address;
+  console.log(company);
+
+  const [center, setCenter] = useState({ lat: 23.8041, lng: 90.4152 });
+  const [markerPosition, setMarkerPosition] = useState(null);
+
+  useEffect(() => {
+    // Use the Google Maps Geocoding API to convert location to coordinates
+    axios
+      .get(`https://maps.googleapis.com/maps/api/geocode/json`, {
+        params: {
+          address: location,
+          key: "AIzaSyBqybgfOd1_p1YKH1nOPOuR_C8Nbfv3kQ0", // Replace with your Google Maps API key
+        },
+      })
+      .then((response) => {
+        const results = response.data.results;
+        if (results && results.length > 0) {
+          const { lat, lng } = results[0].geometry.location;
+          setCenter({ lat, lng });
+          setMarkerPosition({ lat, lng }); // Set the marker position
+        } else {
+          console.error("Location not found");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching location data", error);
+      });
+  }, [location]);
+
+  const [isAndroid, setIsAndroid] = useState(false);
+  const [isApple, setIsApple] = useState(false);
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent.toLowerCase();
+
+    // Check if the user agent contains "android" to identify Android devices.
+    if (userAgent.includes("android")) {
+      setIsAndroid(true);
+    }
+
+    // Check if the user agent contains "iphone" or "ipad" to identify Apple (iOS) devices.
+    if (userAgent.includes("iphone") || userAgent.includes("ipad")) {
+      setIsApple(true);
+    }
+  }, []);
+
+  const openInApp = () => {
+    setTimeout(function () {
+      window.location = isAndroid
+        ? "https://play.google.com/store/apps/details?id=com.bringin.io"
+        : "https://apps.apple.com/app/bringin-instant-hiring-app/id6463415765";
+    }, 200);
+
+    // once you do the custom-uri, it should properly execute the handler, otherwise, the settimeout that you set before will kick in
+    window.location = `bringin://app.bringin.io/job-details/${_id}`;
+  };
+
+
+
+
 
   return (
     <div>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Recruiters Job Posts | Unbolt Chat Based Hiring App </title>
+        <meta
+          name="description"
+          content=" At Unbolt-instant hiring app, Both Job Seekers and Recruiters can chat directly, also can attend instant in-app video call interviews and get hired instantly."
+        />
+        <link rel="canonical" href="http://unbolt.co/job-details" />
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-KKFH10XGFV"
+        ></script>
+        <script>
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-KKFH10XGFV');
+          `}
+        </script>
+      </Helmet>
       <div className="flex justify-center">
         {/* pc */}
 
         <div className="">
-          <div className="lg:w-[675px] lg:h-[560px] md:w-[675px] md:h-[560px] px-4 my-5 w-[340px]  px-4  ">
-            <div>
-              <img src="/images/link.png" className="w-[190px] h-[41px]" />
-            </div>
+          <div className="lg:w-[675px] lg:h-[560px] md:w-[675px] md:h-[560px] w-full px-4 my-5   px-4  mx-1">
+            <div className="flex justify-between items-center bg-white py-2 sticky top-0 z-40 bg-white">
+              <LazyLoadImage
+                effect="blur"
+                src="/images/navlogo.svg"
+                className="lg:w-[100px] lg:h-[41px] w-[140px] h-[30px]"
+              />
 
-            <div className="mt-[40px]">
+              <div className="">
+                {isAndroid && (
+                  <button
+                    onClick={openInApp}
+                    className="bg-[#0077B5] font-medium lg:w-[110px] lg:h-[30px] w-[80px] h-[25px] lg:text-[14px] text-[10px] text-white rounded rounded-[8px]"
+                  >
+                    Open in App
+                  </button>
+                )}
+                {isApple && (
+                  <button
+                    onClick={openInApp}
+                    className="bg-[#0077B5] font-medium lg:w-[110px] lg:h-[30px] w-[80px] h-[25px] lg:text-[14px] text-[10px] text-white rounded rounded-[8px]"
+                  >
+                    Open in App
+                  </button>
+                )}
+                {!isAndroid && !isApple && (
+                  <a
+                    href="https://play.google.com/store/apps/details?id=com.bringin.io"
+                    target="_blank"
+                  >
+                    <button className="bg-[#0077B5] font-medium lg:w-[110px] lg:h-[30px] w-[80px] h-[25px] lg:text-[14px] text-[10px] text-white rounded rounded-[8px]">
+                      Open in App
+                    </button>
+                  </a>
+                )}
+              </div>
+            </div>
+            <div className="lg:mt-[40px] mt-[25px]">
               <div className="flex justify-between">
                 <p className="text-[#212427] lg:text-[24px] md:text-[24px] text-[20px] font-medium">
                   {job_title}
                 </p>
 
                 <div>
-                  <p className="text-[#212427] lg:text-[18px] md:text-[18px] text-[16px] font-medium border border-[#212427] border-opacity-20 h-[32px]  rounded rounded-[30px] px-4 flex items-center">
+                  <p className="text-[#212427] lg:text-[18px] md:text-[18px] text-[14px] font-medium border border-[#212427] border-opacity-20   rounded rounded-[10px] px-2 py-1 flex items-center">
                     {salary?.min_salary?.salary
                       ? salary?.min_salary?.salary
                       : "00"}
@@ -63,7 +215,8 @@ const JobDetails = () => {
               <div className="mb-[12px]">
                 <div className="flex gap-x-3 mt-2">
                   <div className="flex gap-2 items-center ">
-                    <img
+                    <LazyLoadImage
+                      effect="blur"
                       alt="bringin image"
                       src="/images/je.png"
                       className="w-4 h-4"
@@ -73,18 +226,20 @@ const JobDetails = () => {
                     </p>
                   </div>
                   <div className="flex gap-2 items-center ">
-                    <img
+                    <LazyLoadImage
+                      effect="blur"
                       alt="bringin image"
                       src="/images/jl.png"
                       className="w-4 h-4"
                     />
                     <p className="text-[14px] text-[#212427]">
-                      {job_location?.city}
+                      {`${job_location?.divisiondata?.divisionname}, ${job_location?.divisiondata?.cityid?.name}`}
                     </p>
                   </div>
 
                   <div className="flex gap-2 items-center ">
-                    <img
+                    <LazyLoadImage
+                      effect="blur"
                       alt="bringin image"
                       src="/images/jf.png"
                       className="w-4 h-4"
@@ -103,18 +258,21 @@ const JobDetails = () => {
                       <div>
                         {userid?.image ? (
                           <div className="relative">
-                            <img
+                            <LazyLoadImage
+                              effect="blur"
                               src="/images/candidate/Group 10464.svg"
-                              // src={`https://rsapp.bringin.io/${userid?.image}`}
+                              // src={`https://rsapp.unbolt.co/${userid?.image}`}
                               className="w-[60px] h-[60px] rounded rounded-full"
                             />
-                            <img
+                            <LazyLoadImage
+                              effect="blur"
                               src="/images/rv.png"
                               className="w-[15px] h-[15px]  absolute bottom-0 right-0"
                             />
                           </div>
                         ) : (
-                          <img
+                          <LazyLoadImage
+                            effect="blur"
                             src="/images/candidate/Group 10464.svg"
                             className="w-[60px] h-[60px] rounded rounded-full"
                           />
@@ -128,7 +286,8 @@ const JobDetails = () => {
                                 {" "}
                                 {userid?.firstname} {userid?.lastname}
                               </p>
-                              <img
+                              <LazyLoadImage
+                                effect="blur"
                                 src="/images/ro1.png"
                                 className="lg:w-[7px] lg:h-[7px] w-[4px] h-[4px] "
                               />
@@ -157,7 +316,8 @@ const JobDetails = () => {
                               {" "}
                               {userid?.designation}
                             </p>
-                            <img
+                            <LazyLoadImage
+                              effect="blur"
                               src="/images/ro.png"
                               className="lg:w-[7px] lg:h-[7px] w-[4px] h-[4px] "
                             />
@@ -172,7 +332,8 @@ const JobDetails = () => {
                     <div className="mt-4">
                       {userid?.other?.profile_verify === true ? (
                         <div className="flex items-center gap-x-2">
-                          <img
+                          <LazyLoadImage
+                            effect="blur"
                             src="/images/tick-mark.png"
                             className=" w-[14px] h-[14px] "
                           />
@@ -194,35 +355,49 @@ const JobDetails = () => {
                   Job Descriptions
                 </p>
               </div>
+           
+   
 
-              <div className="mt-[25px]">
-                <div className="flex"></div>
-                <div className="">
-                  {skill.map((sk, i) => (
-                    <div key={i}>
-                      <div className="flex gap-x-4 mt-1">
-                        {sk?.skill ? (
-                          <p className="  text-[14px] font-normal borber border-b-[1px]">
-                            {sk?.skill}
-                          </p>
-                        ) : (
-                          ""
-                        )}
+
+              {skill.length > 0 && (
+                <div className="lg:mt-[20px] mt-[12px]">
+                  <div className="flex"></div>
+                  <div className="flex  flex-wrap gap-x-5">
+                    {skill.map((sk, i) => (
+                      <div key={i}>
+                        <div className="flex gap-x-4 mt-1">
+                          {sk ? (
+                            <p className="  text-[14px] font-normal borber border-b-[1px]">
+                              {sk}
+                            </p>
+                          ) : (
+                            ""
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-
-              <div className="mt-[25px]">
-                {job_description ? (
-                  <p className="text-[14px] text-[#212427] text-opacity-90 font-medium">
-                    {job_description}
-                  </p>
-                ) : (
-                  ""
-                )}
-              </div>
+              )}
+              {richText === true ? (
+                <div className="lg:mt-[16px] mt-[12px]">
+                  {job_description ? (
+                    <div dangerouslySetInnerHTML={{ __html: html }} />
+                  ) : (
+                    ""
+                  )}
+                </div>
+              ) : (
+                <div className="lg:mt-[16px] mt-[12px]">
+                  {job_description ? (
+                    <p className="text-[14px] text-[#212427] text-opacity-90 font-medium">
+                      {job_description}
+                    </p>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              )}
 
               <div className="mt-[25px]">
                 <div className="h-[74px] border border-[#212427] border-opacity-20   rounded rounded-[5px] px-4 flex items-center">
@@ -231,18 +406,21 @@ const JobDetails = () => {
                       <div>
                         {userid?.image ? (
                           <div className="relative">
-                            <img
+                            <LazyLoadImage
+                              effect="blur"
                               src="/images/candidate/Group 10464.svg"
-                              // src={`https://rsapp.bringin.io/${userid?.image}`}
+                              // src={`https://rsapp.unbolt.co/${userid?.image}`}
                               className="w-[50px] h-[50px] rounded rounded-full"
                             />
-                            <img
+                            <LazyLoadImage
+                              effect="blur"
                               src="/images/rv.png"
                               className="w-[15px] h-[15px]  absolute bottom-0 right-0"
                             />
                           </div>
                         ) : (
-                          <img
+                          <LazyLoadImage
+                            effect="blur"
                             src="/images/candidate/Group 10464.svg"
                             className="w-[50px] h-[50px] rounded rounded-full"
                           />
@@ -272,58 +450,45 @@ const JobDetails = () => {
               </div>
 
               <div className="mt-[25px]">
-                <img src="/images/map.png" className="lg:[389px]  " />
+                <div className="flex justify-center">
+                  {!isLoaded ? (
+                    <div>Loading...</div>
+                  ) : (
+                    <div className="w-full h-[400px]  ">
+                      <GoogleMap
+                        zoom={13}
+                        center={center}
+                        mapContainerClassName="w-full h-[400px] rounded-[5px]"
+                      >
+                        {markerPosition && (
+                          <Marker position={markerPosition} /> // Add the marker at the specified position
+                        )}
+                      </GoogleMap>
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div>
                 <div className="">
                   <Link>
-                    <button onClick={()=>closeModal(true)} className="text-white font-semibold text-[20px] bg-[#0077B5] w-full h-[52px] my-10 rounded rounded-[5px]">
+                    <button
+                      onClick={() => closeModal(true)}
+                      className="text-white font-semibold text-[20px] bg-[#0077B5] w-full h-[52px] my-10 rounded rounded-[5px]"
+                    >
                       Start Chatting
                     </button>
                   </Link>
                 </div>
               </div>
-
-              <hr className="mt-5 "></hr>
-<div className="flex justify-center">
-
-              <div className="flex gap-4 my-7 ">
-                <a href="https://play.google.com/store/apps/details?id=com.bringin.io" target="_blank">
-                  <img
-                    className="lg:w-[130px] lg:h-[42px] w-[233px] h-[40px]  md:h-[62px]"
-                    src="/images/playstore.png"
-                  />
-                </a>
-
-                <a href="">
-                  <img
-                    className="lg:w-[130px] lg:h-[42px] w-[233px] h-[40px]  md:h-[62px]"
-                    src="/images/appstore.png"
-                  />
-                </a>
-              </div>
-</div>
             </div>
           </div>
         </div>
 
-        {/* pc */}
-
-        {/* <div>
-            <div className="block lg:hidden md:hidden">
-              <div className="w-[340px]  px-4  my-5">
-                <div>
-                  <img src="/images/link.png" className="w-[130px] h-[31px]" />
-                </div>
-  
-                <div className="mt-[40px]">
-
-               </div>
-              </div>
-            </div>
-          </div> */}
-          <AppLinkModal visible={openModal} closeModal={closeModal}></AppLinkModal>
+        <AppLinkModal
+          visible={openModal}
+          closeModal={closeModal}
+        ></AppLinkModal>
       </div>
     </div>
   );

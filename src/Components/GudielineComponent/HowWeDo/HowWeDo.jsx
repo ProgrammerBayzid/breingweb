@@ -1,12 +1,13 @@
-import t from '../../../assets/guidline/Group 12092.svg'
-
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const HowWeDo = () => {
   return (
     <div className=" mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl  ">
       <div className='ml-4'>
         <div className="flex gap-5 pb-5 mt-2  ">
-          <img src={t} className="w-[17px] h-[16px] rounded mt-2" />
+            <LazyLoadImage
+              effect= "blur" src="/images/guidline/Group 12092.svg" className="w-[17px] h-[16px] rounded mt-2" />
           <p className="text-[20px] text-[#646668] ">
             <span className="font-medium text-black"> Attend Interviews from Home</span>{" "}
             <br></br>A Recruiter can take instant interviews via chat and
@@ -16,7 +17,8 @@ const HowWeDo = () => {
           </p>
         </div>
         <div className="flex gap-5 pb-5 mt-2  ">
-          <img src={t} className="w-[17px] h-[16px] rounded mt-2" />
+            <LazyLoadImage
+              effect= "blur" src="/images/guidline/Group 12092.svg" className="w-[17px] h-[16px] rounded mt-2" />
           <p className="text-[20px] text-[#646668] ">
             <span className="font-medium text-black"> Get Hired Instantly</span> <br></br>
             After a chat & video call interview If a candidate is selected by
@@ -25,7 +27,8 @@ const HowWeDo = () => {
           </p>
         </div>
         <div className="flex gap-5 pb-5 mt-2  ">
-          <img src={t} className="w-[17px] h-[16px] rounded mt-2" />
+            <LazyLoadImage
+              effect= "blur" src="/images/guidline/Group 12092.svg" className="w-[17px] h-[16px] rounded mt-2" />
           <p className="text-[20px] text-[#646668] ">
             <span className="font-medium text-black"> Keep Your Profile Updated</span>{" "}
             <br></br>
@@ -36,7 +39,8 @@ const HowWeDo = () => {
           </p>
         </div>
         <div className="flex gap-5 pb-5 mt-2  ">
-          <img src={t} className="w-[17px] h-[16px] rounded mt-2" />
+            <LazyLoadImage
+              effect= "blur" src="/images/guidline/Group 12092.svg" className="w-[17px] h-[16px] rounded mt-2" />
           <p className="text-[20px] text-[#646668] ">
             <span className="font-medium text-black"> Be Professional</span> <br></br>
             When using the app, it's crucial to maintain professionalism

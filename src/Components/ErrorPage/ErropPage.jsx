@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import errorimg from "../../assets/commonlogo/error.svg";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import 'react-lazy-load-image-component/src/effects/blur.css';
 const ErropPage = () => {
   return (
     <div className=" mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl mt-24">
@@ -11,12 +12,13 @@ const ErropPage = () => {
           <h4 className="text-[]16px] text-[#646668] my-[15px]">
             We are sorry, the page you requested <br></br>could not be found.
             please go back to the <br></br> home page or contact us at{" "}
-            <p className="text-[#0077B5]">hello@bringin.io</p>
+            <p className="text-[#0077B5]">hello@unbolt.co</p>
           </h4>
           <Link to='/'><button className="btn">BACK TO HOME</button></Link>
         </div>
         <div>
-          <img alt="bringin image" src={errorimg} />
+        <LazyLoadImage
+              effect= "blur" alt="bringin image" src="/images/commonlogo/error.svg" />
         </div>
       </div>
     </div>

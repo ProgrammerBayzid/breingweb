@@ -2,9 +2,9 @@ const GuidlineHero = () => {
   return (
     <div>
       <div className="relative lg:bg-[url(/src/bgimages/jebg.png)] bg-contain	 bg-center bg-no-repeat">
-        <div className="lg:h-[1000px]">
+        <div className="lg:h-[800px]">
           <div className="lg:mx-[40px] md:mx-[10px] mx-[10px]">
-          <h1 className="lg:text-[38px] text-[#00486D] md:text-[35px] text-[30px] font-semibold text-center lg:my-[60px] my-[20px] my-[40px]">
+          <h1 className="lg:text-[38px] text-[#00486D] md:text-[35px] text-[30px] font-semibold text-center lg:mt-[40px] my-[20px] my-[40px]">
           What we recommend to the Job Seekers!
                 </h1>
          <div className="flex justify-center">
@@ -12,11 +12,10 @@ const GuidlineHero = () => {
               <div className="lg:w-[391px] lg:h-[240px] w-[300px]  bg-white rounded rounded-[5px] shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
                 <div className="px-5 py-5">
                   <p className="lg:text-[20px] text-[#212427] md:text-[18px] text-[15px] font-semibold">
-                    Download the Bringin App
+                    Download the Unbolt App
                   </p>
                   <p className="lg:text-[16px] text-[#212427] text-opacity-70 md:text-[14px] text-[12px] font-medium mt-2">
-                    The first step for a job seeker is to download the Bringin -
-                    Instant Hiring App from the App Store or Google Play Store.
+                    The first step for a job seeker is to download the Unbolt - Chat Based Hiring App from the App Store or Google Play Store.
                   </p>
                 </div>
               </div>
@@ -79,7 +78,7 @@ const GuidlineHero = () => {
                   <p className="lg:text-[16px] text-[#212427] text-opacity-70 md:text-[14px] text-[12px] font-medium mt-2">
                     After a successful chat and video call interview, if a
                     candidate is selected by the recruiter, they can be
-                    instantly hired through the Bringin app platform.
+                    instantly hired through the Unbolt app platform.
                   </p>
                 </div>
               </div>

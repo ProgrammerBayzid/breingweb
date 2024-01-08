@@ -1,12 +1,42 @@
 
-import dot from '../../assets/privicy/Ellipse 207.svg'
-import useTitle from '../../hooks/useTitle';
+import { Helmet } from 'react-helmet';
 import AppLogo from '../App/AppLogo';
-
+import { useEffect } from 'react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 const RefundCancellationPolicy = () => {
-    useTitle(" Cancellation & Refund Policy")
+  useEffect(() => {
+    
+    const script = document.createElement("script");
+
+     
+    script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1556748687572177";
+    script.async = true;
+    script.crossOrigin = "anonymous";
+
+     document.head.appendChild(script);
+
+     return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
   return (
-    <div className=' my-[70px] lg:mx-[40px] md:mx-[10px] mx-[10px]'>
+    <div className=' lg:my-[70px] my-[20px] lg:mx-[40px] md:mx-[10px] mx-[10px]'>
+       <Helmet>
+                <meta charSet="utf-8" />
+                <title>Read our cancellation & refund policy | Unbolt Chat Based Hiring App </title>
+                <meta name="description" content="Understanding our cancellation and refund policy. Stay informed about the process on Unbolt, your instant hiring companion." />
+                <link rel="canonical" href="http://unbolt.co/cancellation-and-refund-policy" />
+                <script async src="https://www.googletagmanager.com/gtag/js?id=G-KKFH10XGFV"></script>
+        <script>
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-KKFH10XGFV');
+          `}
+        </script>
+            </Helmet>
       <div className='lg:mx-16'>
         <div>
         <h1 className="text-center text-[#023C5B] font-semibold	text-[#4D5052] lg:text-[40px] md:text-[30px] text-[25px] mb-7">
@@ -17,7 +47,7 @@ const RefundCancellationPolicy = () => {
           <p className="font-semibold text-[#4D5052] text-[23px]">1. Cancellation Policy</p>
           <p className="text-[#6A6A6A] text-[20px] ">
             We understand that circumstances may change, and you may need to
-            cancel your subscription with Bringin. Therefore, we have
+            cancel your subscription with Unbolt. Therefore, we have
             implemented a cancellation policy to ensure a smooth process for our
             users.
           </p>
@@ -27,24 +57,26 @@ const RefundCancellationPolicy = () => {
             <span className="font-semibold text-[23px] text-[#4D5052] ">
              A) Subscription Cancellation:
             </span>{" "}
-            You have the freedom to cancel your subscription with Bringin at any
+            You have the freedom to cancel your subscription with Unbolt at any
             time and switch back to the free model. To initiate the
             cancellation, please follow the steps outlined below:
           </p>
           <div className="flex gap-2  my-2">
             <div>
-              <img alt="bringin image" src={dot} className="mt-3"></img>
+                    <LazyLoadImage
+              effect= "blur" alt="Unbolt image" src="/images/privicy/Ellipse 207.svg" className="mt-3"></LazyLoadImage>
             </div>
             <div>
               <p className=" text-[#6A6A6A] text-[20px]">
                 {" "}
-                Log in to your Bringin account.
+                Log in to your Unbolt account.
               </p>
             </div>
           </div>
           <div className="flex gap-2  my-2">
             <div>
-              <img alt="bringin image" src={dot} className="mt-3"></img>
+                    <LazyLoadImage
+              effect= "blur" alt="Unbolt image" src="/images/privicy/Ellipse 207.svg" className="mt-3"></LazyLoadImage>
             </div>
             <div>
               <p className=" text-[#6A6A6A] text-[20px] ">
@@ -55,7 +87,8 @@ const RefundCancellationPolicy = () => {
           </div>
           <div className="flex gap-2  my-2">
             <div>
-              <img alt="bringin image" src={dot} className="mt-3"></img>
+                    <LazyLoadImage
+              effect= "blur" alt="Unbolt image" src="/images/privicy/Ellipse 207.svg" className="mt-3"></LazyLoadImage>
             </div>
             <div>
               <p className=" text-[#6A6A6A] text-[20px] ">
@@ -77,7 +110,8 @@ const RefundCancellationPolicy = () => {
           </p>
           <div className="flex gap-2  my-2">
             <div>
-              <img alt="bringin image" src={dot} className="mt-3"></img>
+                    <LazyLoadImage
+              effect= "blur" alt="Unbolt image" src="/images/privicy/Ellipse 207.svg" className="mt-3"></LazyLoadImage>
             </div>
             <div>
               <p className=" text-[#6A6A6A] text-[20px] ">
@@ -88,7 +122,8 @@ const RefundCancellationPolicy = () => {
           </div>
           <div className="flex gap-2  my-2">
             <div>
-              <img alt="bringin image" src={dot} className="mt-3"></img>
+                    <LazyLoadImage
+              effect= "blur" alt="Unbolt image" src="/images/privicy/Ellipse 207.svg" className="mt-3"></LazyLoadImage>
             </div>
             <div>
               <p className=" text-[#6A6A6A] text-[20px] ">
@@ -100,7 +135,8 @@ const RefundCancellationPolicy = () => {
           </div>
           <div className="flex gap-2  my-2">
             <div>
-              <img alt="bringin image" src={dot} className="mt-3"></img>
+                    <LazyLoadImage
+              effect= "blur" alt="Unbolt image" src="/images/privicy/Ellipse 207.svg" className="mt-3"></LazyLoadImage>
             </div>
             <div>
               <p className=" text-[#6A6A6A] text-[20px] ">
@@ -118,7 +154,7 @@ const RefundCancellationPolicy = () => {
               C) Reverting to Free Model:
             </span>{" "}
             After canceling your subscription, you will automatically revert to
-            the free model offered by Bringin. As a Job Seeker or Recruiter, you
+            the free model offered by Unbolt. As a Job Seeker or Recruiter, you
             can continue to enjoy our services free of charge what we offered
             usually. However, certain limitations and restrictions may apply to
             the features and benefits available in the free model.
@@ -130,7 +166,7 @@ const RefundCancellationPolicy = () => {
             <span className="font-semibold text-[#4D5052] text-[23px] ">
               D) Modification or Termination of Cancellation Policy:
             </span>{" "}
-            Bringin reserves the right to modify or terminate the cancellation
+            Unbolt reserves the right to modify or terminate the cancellation
             policy at any time. In the event of any changes, we will notify
             users through our website, app notifications, whatsapp or other
             appropriate communication channels.
@@ -150,7 +186,7 @@ const RefundCancellationPolicy = () => {
             2. Refund Policy of Bringin Technologies Limited
           </p>
           <p className="text-[#6A6A6A] text-[20px] ">
-            At Bringin, we strive to provide a seamless and satisfactory
+            At Unbolt, we strive to provide a seamless and satisfactory
             experience to all our users. However, please note that our refund
             policy for the subscription model is as follows:
           </p>
@@ -161,8 +197,8 @@ const RefundCancellationPolicy = () => {
             <span className="font-semibold text-[#4D5052] text-[23px] ">
               A) Digital Offering and Refund Eligibility:
             </span>{" "}
-            The subscription model offered by Bringin is a digital service. Once
-            the payment for the subscription has been completed, Bringin
+            The subscription model offered by Unbolt is a digital service. Once
+            the payment for the subscription has been completed, Unbolt
             generally does not provide refunds unless specific circumstances
             arise.
           </p>
@@ -178,7 +214,8 @@ const RefundCancellationPolicy = () => {
           </p>
           <div className="flex gap-2  my-2">
             <div>
-              <img alt="bringin image" src={dot} className="mt-3 w-5"></img>
+                    <LazyLoadImage
+              effect= "blur" alt="Unbolt image" src="/images/privicy/Ellipse 207.svg" className="mt-3 w-5"></LazyLoadImage>
             </div>
             <div className=''>
               <p className=" ">
@@ -191,7 +228,7 @@ const RefundCancellationPolicy = () => {
                   {" "}
                   If, after exercising due diligence, it is determined that the
                   subscription service cannot be utilized due to a platform
-                  failure or technical issue on Bringin's part, the user may be
+                  failure or technical issue on Unbolt's part, the user may be
                   eligible for a refund. In such cases, the user should reach
                   out to our customer support team to initiate the refund
                   process.{" "}
@@ -210,7 +247,8 @@ const RefundCancellationPolicy = () => {
           </p>
           <div className="flex gap-2  my-2">
             <div>
-              <img alt="bringin image" src={dot} className="mt-3 w-2"></img>
+                    <LazyLoadImage
+              effect= "blur" alt="Unbolt image" src="/images/privicy/Ellipse 207.svg" className="mt-3 w-2"></LazyLoadImage>
             </div>
             <div>
               <p >
@@ -222,7 +260,7 @@ const RefundCancellationPolicy = () => {
                 <span className="text-[#6A6A6A] text-[20px] ">
                   {" "}
                   If a user's account is closed due to inappropriate behavior on
-                  Bringin's platform, no refund will be provided.
+                  Unbolt's platform, no refund will be provided.
                 </span>
               </p>
             </div>
@@ -235,7 +273,7 @@ const RefundCancellationPolicy = () => {
             Contacting Customer Support:
             </span>{" "}
             If you have any concerns or objections regarding the subscription or
-            refund, we encourage you to contact Bringin's customer support team.
+            refund, we encourage you to contact Unbolt's customer support team.
             Our team will be available to address your queries and assist you in
             the best possible way.
           </p>
@@ -243,7 +281,7 @@ const RefundCancellationPolicy = () => {
             <div>
               <p className="text-[#6A6A6A] text-[20px] mt-5">
                 Please note that this refund policy is subject to the Terms and
-                Conditions outlined on our website. Bringin reserves the right
+                Conditions outlined on our website. Unbolt reserves the right
                 to modify or amend the refund policy at any time. Any updates or
                 changes to the refund policy will be communicated through our
                 website or other appropriate channels. If you have any further

@@ -1,9 +1,13 @@
 import { Link, useLoaderData } from "react-router-dom";
-import useTitle from "../hooks/useTitle";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
+import { useEffect, useState } from "react";
+import { AiFillStar } from "react-icons/ai";
+import { BsStarHalf } from "react-icons/bs";
+import { Helmet } from "react-helmet";
 
 const CandidateDetails = () => {
-  useTitle("Candidate Details - Bringin");
-
+ 
   const profile = useLoaderData();
 
   console.log(profile);
@@ -15,22 +19,50 @@ const CandidateDetails = () => {
     protfoliolink,
     about,
     careerPreference,
+    _id,
   } = profile;
 
+  const openAndroidApp = () => {
+    try {
+      if (!_id) {
+        throw new Error("The _id is missing or invalid.");
+      }
+      window.open(`bringin://app.bringin.io/candidate-profile/${_id}`);
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  };
+
+  useEffect(() => {
+    openAndroidApp(); // Call openAndroidApp function when the component is mounted.
+  }, []);
   console.log(userid);
 
+  const birthYearMonth = userid?.deatofbirth.slice(0, 7); // Your birth year and month in the format "yyyy-mm"
+  const [age, setAge] = useState(0);
 
+  useEffect(() => {
+    const today = new Date();
+    const birthdate = new Date(`${birthYearMonth}-01`); // Assuming 1st day of birth month
 
+    const yearsDiff = today.getFullYear() - birthdate.getFullYear();
 
-
-
-
+    // Adjust age if the birthday hasn't occurred yet this year
+    if (
+      today.getMonth() < birthdate.getMonth() ||
+      (today.getMonth() === birthdate.getMonth() &&
+        today.getDate() < birthdate.getDate())
+    ) {
+      setAge(yearsDiff - 1);
+    } else {
+      setAge(yearsDiff);
+    }
+  }, [birthYearMonth]);
 
   // Input date string
   const inputDateString = education[0]?.startdate;
-  const inputDateStrin = education[0]?.enddate  ;
-  const inputDateStrindeatofbirth = userid?.deatofbirth  ;
-
+  const inputDateStrin = education[0]?.enddate;
+  const inputDateStrindeatofbirth = userid?.deatofbirth;
 
   // Parse the input date string into a Date object
   const date = new Date(inputDateString);
@@ -39,8 +71,18 @@ const CandidateDetails = () => {
 
   // Months mapping
   const months = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
 
   // Extract year and month
@@ -65,15 +107,101 @@ const CandidateDetails = () => {
   // const ins = first.category[0];
   // console.log(ins);
 
+  const [isAndroid, setIsAndroid] = useState(false);
+  const [isApple, setIsApple] = useState(false);
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent.toLowerCase();
+
+    // Check if the user agent contains "android" to identify Android devices.
+    if (userAgent.includes("android")) {
+      setIsAndroid(true);
+    }
+
+    // Check if the user agent contains "iphone" or "ipad" to identify Apple (iOS) devices.
+    if (userAgent.includes("iphone") || userAgent.includes("ipad")) {
+      setIsApple(true);
+    }
+  }, []);
+
+  const openInApp =()=>{
+    setTimeout(function() {
+      window.location = isAndroid? "https://play.google.com/store/apps/details?id=com.bringin.io":"https://apps.apple.com/app/bringin-instant-hiring-app/id6463415765";
+    }, 200);
+    
+    // once you do the custom-uri, it should properly execute the handler, otherwise, the settimeout that you set before will kick in
+    window.location = `bringin://app.bringin.io/candidate-profile/${_id}`;
+  }
+
   return (
     <div>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title> Candidate Profile- Unbolt</title>
+        <meta
+          name="description"
+          content=" At Unbolt-instant hiring app, Both Job Seekers and Recruiters can chat directly, also can attend instant in-app video call interviews and get hired instantly."
+        />
+        <link rel="canonical" href="http://unbolt.co/candidate-profile" />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-KKFH10XGFV"></script>
+        <script>
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-KKFH10XGFV');
+          `}
+        </script>
+      </Helmet>
       <div className="flex justify-center">
         {/* pc */}
 
         <div className="hidden lg:block">
           <div className="w-[675px] h-[560px] px-4 my-5">
-            <div>
-              <img src="/images/link.png" className="w-[190px] h-[41px]" />
+            <div className="flex justify-between items-center bg-white sticky top-0 z-40 bg-white py-2">
+              <div>
+                <LazyLoadImage
+                  effect="blur"
+                  src="/images/navlogo.svg"
+                  className="w-[100px] h-[41px]"
+                />
+
+                <div className="flex gap-x-1 text-[14px] items-center text-gray-500 ">
+                  <AiFillStar></AiFillStar>
+                  <AiFillStar></AiFillStar>
+                  <AiFillStar></AiFillStar>
+                  <AiFillStar></AiFillStar>
+                  <BsStarHalf></BsStarHalf>
+                  <p className="mt-[1px] ml-2">25K</p>
+                </div>
+              </div>
+
+              <div className="">
+                {isAndroid && (
+                  
+                    <button onClick={openInApp} className="bg-[#0077B5] font-medium lg:w-[110px] lg:h-[30px] w-[80px] h-[25px] lg:text-[14px] text-[10px] text-white rounded rounded-[8px]">
+                      Open in App
+                    </button>
+                  
+                )}
+                {isApple && (
+                 
+                    <button onClick={openInApp} className="bg-[#0077B5] font-medium lg:w-[110px] lg:h-[30px] w-[80px] h-[25px] lg:text-[14px] text-[10px] text-white rounded rounded-[8px]">
+                      Open in App
+                    </button>
+                  
+                )}
+                {!isAndroid && !isApple && (
+                  <a
+                    href="https://play.google.com/store/apps/details?id=com.bringin.io"
+                    target="_blank"
+                  >
+                    <button className="bg-[#0077B5] font-medium lg:w-[110px] lg:h-[30px] w-[80px] h-[25px] lg:text-[14px] text-[10px] text-white rounded rounded-[8px]">
+                      Open in App
+                    </button>
+                  </a>
+                )}
+              </div>
             </div>
 
             <div className="mt-[40px]">
@@ -81,24 +209,28 @@ const CandidateDetails = () => {
                 <div className="flex justify-between">
                   <div>
                     {userid?.fastname ? (
-                      <p className="text-[24px] font-medium text-[#212427]">
+                      <p className="text-[25px] font-medium text-[#212427]">
                         {userid?.fastname} {userid?.lastname}
                       </p>
                     ) : (
                       ""
                     )}
                     <p className="text-[16px] text-[#212427] text-opacity-70 font-normal mt-[10px]">
-                      Bringin Technologies Ltd.
+                      {workexperience[0]?.designation}
+                      {" | "}
+                      {workexperience[0]?.companyname}
                     </p>
                   </div>
                   <div>
                     {userid?.image ? (
-                      <img
-                        src={`https://rsapp.bringin.io/${userid?.image}`}
+                      <LazyLoadImage
+                        effect="blur"
+                        src={`https://rsapp.unbolt.co/${userid?.image}`}
                         className="w-[100px] h-[100px] rounded rounded-full"
                       />
                     ) : (
-                      <img
+                      <LazyLoadImage
+                        effect="blur"
                         src="/images/candidate/Group 10464.svg"
                         className="w-[100px] h-[100px] rounded rounded-full"
                       />
@@ -110,7 +242,8 @@ const CandidateDetails = () => {
                 <div className="">
                   <div className="flex gap-x-3 mt-2">
                     <div className="flex gap-2 items-center ">
-                      <img
+                      <LazyLoadImage
+                        effect="blur"
                         alt="bringin image"
                         src="/images/profile/Years.svg"
                         className="w-4 h-4"
@@ -120,30 +253,24 @@ const CandidateDetails = () => {
                       </p>
                     </div>
                     <div className="flex gap-2 items-center ">
-                      <img
+                      <LazyLoadImage
+                        effect="blur"
                         alt="bringin image"
                         src="/images/profile/Mass.svg"
                         className="w-4 h-4"
                       />
-                      {education?.map((e) => (
-                        <p key={e._id} className="text-[14px] text-[#212427]">
-                          {e?.digree?.name ? e?.digree?.name : ""}
-                        </p>
-                      ))}
+                      {education[0]?.digree?.name ? education[0]?.digree?.name : ""}
                     </div>
 
                     <div className="flex gap-2 items-center ">
-                      <img
+                      <LazyLoadImage
+                        effect="blur"
                         alt="bringin image"
                         src="/images/profile/Age.svg"
                         className="w-4 h-4"
                       />
-                      <p className="text-[14px] text-[#212427]">
-                        {birthformattedDate}
-                      </p>
+                      <p className="text-[14px] text-[#212427]">{age} Years</p>
                     </div>
-
-                   
                   </div>
                 </div>
 
@@ -162,9 +289,9 @@ const CandidateDetails = () => {
                   {skill.map((sk, i) => (
                     <div key={i}>
                       <div className="flex gap-x-4">
-                        {sk?.skill ? (
+                        {sk ? (
                           <p className="h-[39px]  px-4 bg-[#00A0DC] bg-opacity-20 rounded rounded-[7px] flex items-center text-[16px] font-normal">
-                            {sk?.skill}
+                            {sk}
                           </p>
                         ) : (
                           ""
@@ -189,15 +316,26 @@ const CandidateDetails = () => {
                           </div>
 
                           <div className="mt-[3px]">
-                            <p className="text-[14px] font-light font-normal text-[#212427] text-opacity-90">
-                              {ca?.functionalarea?.industryid?.industryname}
-                            </p>
+                            {ca.category?.map((catego, i) => (
+                              <p
+                                key={i}
+                                className="text-[16px] font-light font-normal text-[#212427] text-opacity-70"
+                              >
+                                {catego.categoryname}
+                                {i !== ca.category.length - 1 && (
+                                  <span className="text-[16px] font-light font-normal text-[#212427] text-opacity-70">
+                                    {" "}
+                                    |{" "}
+                                  </span>
+                                )}
+                              </p>
+                            ))}
                           </div>
                         </div>
                         <div>
                           <div>
                             <div>
-                              <p className="text-[16px] font-normal text-[#212427]">
+                              <p className="text-[18px] font-normal leading-5 text-[#212427] text-end">
                                 {ca?.salaray?.min_salary?.salary
                                   ? ca?.salaray?.min_salary?.salary
                                   : "00"}
@@ -217,7 +355,7 @@ const CandidateDetails = () => {
                             </div>
                           </div>
                           <div className="mt-[5px]">
-                            <p className="text-[16px] font-normal text-[#212427]">
+                            <p className="text-[16px] font-Light text-[#212427] text-end text-opacity-90">
                               {ca.division?.divisionname
                                 ? ca.division.divisionname
                                 : ""}
@@ -238,18 +376,15 @@ const CandidateDetails = () => {
                     Work Experiences
                   </h1>
                   <div>
-                    <p className="text-[16px] font-normal text-[#212427] mt-1">
-                      Bringin Technologies Ltd.
+                    <p className="text-[17px] font-normal text-[#212427] mt-1">
+                      {workexperience[0]?.companyname}
                     </p>
                     <p className="text-[14px] font-light font-normal text-[#212427] text-opacity-90 mt-[2px]">
-                      UI/UX Designer
+                      {workexperience[0]?.designation}
                     </p>
 
                     <p className="mt-[10px] text-[14px] font-light font-normal text-[#212427] text-opacity-90 ">
-                      Examine previous design feedback and briefs for new
-                      projects, and collaborate with the team. Investigate
-                      various topics, from the web or mobile usage analytics to
-                      trend spotting. Exa
+                      {workexperience[0]?.dutiesandresponsibilities}
                     </p>
                   </div>
                 </div>
@@ -260,30 +395,28 @@ const CandidateDetails = () => {
                   </h1>
                   <div className="flex justify-between">
                     <div>
-                      <p className="text-[16px] font-normal text-[#212427] mt-1">
+                      <p className="text-[17px] font-normal text-[#212427] mt-1">
                         {education[0]?.institutename}
                       </p>
-                      <p className="text-[14px] font-light font-normal text-[#212427] text-opacity-90 mt-[2px]">
-                       {education[0]?.subject?.name}
+                      <p className="text-[15px] font-light font-normal text-[#212427] text-opacity-90 mt-[2px]">
+                        {education[0]?.subject?.name}
                       </p>
                     </div>
                     <div>
                       <p className="text-[14px] font-light font-normal text-[#212427] text-opacity-70 mt-[2px]">
-                        { formattedDate} to {eformattedDate}
+                        {formattedDate} to {eformattedDate}
                       </p>
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <Link to='/recruiterslogin'>
+                  <Link to="/recruiterslogin">
                     <button className="text-white font-semibold text-[20px] bg-[#0077B5] w-full h-[52px] my-10 rounded rounded-[5px]">
                       Start Chatting
                     </button>
                   </Link>
                 </div>
-
-              
               </div>
             </div>
           </div>
@@ -293,21 +426,45 @@ const CandidateDetails = () => {
 
         <div>
           <div className="block lg:hidden md:hidden">
-            <div className="w-[340px]  px-4  my-5">
-              <div>
-                <img src="/images/link.png" className="w-[130px] h-[31px]" />
+            <div className="mx-1  px-4  my-5">
+              <div className="flex justify-between items-center sticky top-0 z-40 bg-white py-2">
+                <div>
+                  <LazyLoadImage
+                    effect="blur"
+                    src="/images/link.png"
+                    className="w-[125px] h-[27px]"
+                  />
+                  <div className="flex gap-x-1 text-[12px] items-center text-gray-500 ml-[33px]">
+                    <AiFillStar></AiFillStar>
+                    <AiFillStar></AiFillStar>
+                    <AiFillStar></AiFillStar>
+                    <AiFillStar></AiFillStar>
+                    <BsStarHalf></BsStarHalf>
+                    <p className="mt-[1px] ml-1">25K</p>
+                  </div>
+                </div>
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.bringin.io"
+                  target="_blank"
+                >
+                  <button className="bg-[#0077B5] font-medium lg:w-[110px] lg:h-[30px] w-[80px] h-[25px] lg:text-[14px] text-[10px] text-white rounded rounded-[8px]">
+                    Download App
+                  </button>
+                </a>
               </div>
 
-              <div className="mt-[40px]">
+              <div className="mt-[25px]">
                 <div className="flex gap-x-3 items-center">
                   <div>
                     {userid?.image ? (
-                      <img
-                        src={`https://rsapp.bringin.io/${userid?.image}`}
-                        className="w-[60px] h-[60px] rounded rounded-full"
+                      <LazyLoadImage
+                        effect="blur"
+                        src={`https://rsapp.unbolt.co/${userid?.image}`}
+                        className="w-[70px] h-[60px] rounded rounded-full"
                       />
                     ) : (
-                      <img
+                      <LazyLoadImage
+                        effect="blur"
                         src="/images/candidate/Group 10464.svg"
                         className="w-[100px] h-[100px] rounded rounded-full"
                       />
@@ -315,14 +472,16 @@ const CandidateDetails = () => {
                   </div>
                   <div>
                     {userid?.fastname ? (
-                      <p className="text-[14px] font-semibold text-[#212427]">
+                      <p className="text-[14px] font-semibold text-[#212427] ml-2">
                         {userid?.fastname} {userid?.lastname}
                       </p>
                     ) : (
                       ""
                     )}
-                    <p className="text-[12px] text-[#212427] text-opacity-90 font-normal mt-[2px]">
-                      Bringin Technologies Ltd.
+                    <p className="text-[12px] text-[#212427] text-opacity-90 font-normal mt-[2px] ml-2">
+                      {workexperience[0]?.designation}
+                      {" | "}
+                      {workexperience[0]?.companyname}
                     </p>
                   </div>
                 </div>
@@ -360,15 +519,28 @@ const CandidateDetails = () => {
                           </div>
 
                           <div className="mt-[3px]">
-                            <p className="text-[12px] font-light font-normal text-[#212427] text-opacity-90">
-                              {ca?.functionalarea?.industryid?.industryname}
+                            <p className="text-[12px] font-light font-normal text-[#212427] text-opacity-80">
+                              {ca.category?.map((catego, i) => (
+                                <p
+                                  key={i}
+                                  className="text-[12px] font-light font-normal text-[#212427] text-opacity-70"
+                                >
+                                  {catego.categoryname}
+                                  {i !== ca.category.length - 1 && (
+                                    <span className="text-[12px] font-light font-normal text-[#212427] text-opacity-70">
+                                      {" "}
+                                      |{" "}
+                                    </span>
+                                  )}
+                                </p>
+                              ))}{" "}
                             </p>
                           </div>
                         </div>
                         <div>
                           <div>
                             <div>
-                              <p className="text-[14px] font-normal text-[#212427]">
+                              <p className="text-[13px] font-normal text-[#212427] text-end">
                                 {ca?.salaray?.min_salary?.salary
                                   ? ca?.salaray?.min_salary?.salary
                                   : "00"}
@@ -388,7 +560,7 @@ const CandidateDetails = () => {
                             </div>
                           </div>
                           <div className="mt-[5px]">
-                            <p className="text-[14px] font-normal text-[#212427]">
+                            <p className="text-[12px] font-normal text-[#212427] text-opacity-90 text-end">
                               {ca.division?.divisionname
                                 ? ca.division.divisionname
                                 : ""}
@@ -412,17 +584,14 @@ const CandidateDetails = () => {
 
                   <div>
                     <p className="text-[14px] font-normal text-[#212427] mt-1">
-                      Bringin Technologies Ltd.
+                      {workexperience[0]?.companyname}
                     </p>
                     <p className="text-[12px] font-light font-normal text-[#212427] text-opacity-90 mt-[2px]">
-                      UI/UX Designer
+                      {workexperience[0]?.designation}
                     </p>
 
                     <p className="mt-[10px] text-[12px] font-light font-normal text-[#212427] text-opacity-90 ">
-                      Examine previous design feedback and briefs for new
-                      projects, and collaborate with the team. Investigate
-                      various topics, from the web or mobile usage analytics to
-                      trend spotting. Exa
+                      {workexperience[0]?.dutiesandresponsibilities}
                     </p>
                   </div>
                 </div>
@@ -436,15 +605,15 @@ const CandidateDetails = () => {
                   <div className="flex justify-between">
                     <div>
                       <p className="text-[14px] font-normal text-[#212427] mt-1">
-                      {education[0]?.institutename}
+                        {education[0]?.institutename}
                       </p>
                       <p className="text-[12px] font-light font-normal text-[#212427] text-opacity-90 mt-[2px]">
-                      {education[0]?.subject?.name}
+                        {education[0]?.subject?.name}
                       </p>
                     </div>
                     <div>
                       <p className="text-[12px] font-light font-normal text-[#212427] text-opacity-70 mt-[2px]">
-                      { formattedDate} to {eformattedDate}
+                        {formattedDate} to {eformattedDate}
                       </p>
                     </div>
                   </div>
@@ -455,13 +624,13 @@ const CandidateDetails = () => {
                       My Skill{" "}
                     </p>
                   </div>
-                  <div className="flex gap-x-2">
+                  <div className=" gap-x-2">
                     {skill.map((sk, i) => (
                       <div key={i}>
                         <div className="flex gap-x-4 mt-1">
-                          {sk?.skill ? (
+                          {sk ? (
                             <p className="  text-[14px] font-normal borber border-b-[1px]">
-                              {sk?.skill}
+                              {sk}
                             </p>
                           ) : (
                             ""
@@ -479,8 +648,6 @@ const CandidateDetails = () => {
                     </button>
                   </Link>
                 </div>
-
-               
               </div>
             </div>
           </div>

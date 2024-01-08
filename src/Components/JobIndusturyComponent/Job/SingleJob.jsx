@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 const SingleJob = ({job}) => {
   const {industryname, _id} = job;
   
+  
     return (
         <div >
-        <Link to={`/cetagory/${_id}`}>
+        <Link to={`/categories/${industryname}`}>
           <div className="card lg:w-[200px] md:w-[200px] w-[160px]  h-[130px] bg-white shadow-[0_8px_60px_rgb(0,0,0,0.1)] relative rounded rounded-[15px]">
             <div className=" py-5 px-5">
               <div className="lg:w-[170px] md:w-[200px] w-[160px]  h-[110px]">

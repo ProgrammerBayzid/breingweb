@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import AppLogo from "../App/AppLogo";
-
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 const RegisterSuccessModal = ({ rvisible, rcloseModal }) => {
   if (!rvisible) return null;
   return (
@@ -14,7 +15,7 @@ const RegisterSuccessModal = ({ rvisible, rcloseModal }) => {
                   onClick={() => rcloseModal(false)}
                   className="cursor-pointer text-[25px] absolute right-4 top-2 text-black"
                 >
-                  <Link to="/">✕</Link>
+                  ✕
                 </button>
                 <div className="">
                   <div className="">
@@ -31,7 +32,8 @@ const RegisterSuccessModal = ({ rvisible, rcloseModal }) => {
                         </p>
                       </div>
                       <div className="flex justify-center my-[30px]">
-                        <img
+                          <LazyLoadImage
+              effect= "blur"
                           alt="bringin image"
                           src="/images/modal/Frame.svg"
                           className=""
@@ -51,7 +53,8 @@ const RegisterSuccessModal = ({ rvisible, rcloseModal }) => {
                       </div>
                       <div className=" lg:block md:hidden hidden ">
                   <div className="flex justify-center mt-7">
-                  <img
+                    <LazyLoadImage
+              effect= "blur"
               className=" w-[283px] h-[42px]"
               src="/src/bgimages/playstorelogo.png"
             />
@@ -85,7 +88,8 @@ export default RegisterSuccessModal;
   </p>
 </div>
 <div className="flex justify-center my-[30px]">
-  <img
+    <LazyLoadImage
+              effect= "blur"
     alt="bringin image"
     src="/images/modal/Frame.svg"
     className=""

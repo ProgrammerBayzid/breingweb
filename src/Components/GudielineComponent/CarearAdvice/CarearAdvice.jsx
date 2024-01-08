@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import fr from "../../../assets/blog/Frame.svg";
-import d from "../../../assets/guidline/Line 12.svg";
 import Spinner from "../../Spinner/Spinner";
-
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 const CarearAdvice = () => {
   const [blogs, setBlogs] = useState([]);
 
@@ -30,15 +29,15 @@ const CarearAdvice = () => {
           <div className="flex items-center justify-around lg:my-[80px] md:my-[60px] my-[40px]">
             <div className="">
               <p className="text-[#A6DEF3] hidden lg:block ">
-                ____________________________________________________
+                ______________________________________________
               </p>
             </div>
-            <h1 className=" lg:text-[38px]  md:text-[35px] text-[30px] font-medium text-center text-[#00486D]">
+            <h1 className=" lg:text-[30px]  md:text-[35px] text-[25px] font-medium text-center text-[#00486D] mt-2">
               Read our articles.
             </h1>
             <div className=" ">
               <p className="text-[#A6DEF3] hidden lg:block ">
-                ____________________________________________________
+                ________________________________________________
               </p>
             </div>
           </div>
@@ -60,7 +59,11 @@ const CarearAdvice = () => {
                       <div className=" lg:w-[373px] lg:h-[303px] w-[300px] h-[250px] bg-[#F6F6F6]  border-t-[1px] border-[#00A0DC]">
                         <div>
                           <div>
-                            <img src={img} />
+                            <LazyLoadImage
+                              effect="blur"
+                              loading="lazy"
+                              src={img}
+                            />
                           </div>
 
                           <div>

@@ -1,6 +1,4 @@
-import h1 from "../../../assets/enterprices/Group 12174.svg";
-import h2 from "../../../assets/enterprices/Group 12175.svg";
-import h3 from "../../../assets/enterprices/Group 12176.svg";
+
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -22,25 +20,60 @@ const Join = () => {
     }
   };
 
+  
+
   console.log(phoneNumber);
 
+  // const handleRegisterSubmit = async (event) => {
+  //   event.preventDefault();
+  //   try {
+  //     const response = await fetch("https://rsapp.unbolt.co/singup", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         number: phoneNumber,
+  //         isRecruiter: 1,
+  //       }),
+  //     });
+  //     console.log("OTP GET");
+  //     if (response.ok) {
+  //       setMessage("OTP sent successfully!");
+  //       setPhoneNumber("");
+  //       localStorage.setItem("number", JSON.stringify(phoneNumber));
+  //       const u = localStorage.getItem("number");
+  //       console.log(u);
+  //       navigate("/verifications");
+  //     } else {
+  //       setMessage("Error sending OTP. Please try again later.");
+  //     }
+  //   } catch (err) {
+  //     setMessage("Error sending OTP. Please try again later.");
+  //   }
+  // };
   const handleRegisterSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch("https://admin.bringin.io/api/login", {
+      const formattedPhoneNumber = "0" + phoneNumber; // Add '0' at the beginning
+      const response = await fetch("https://rsapp.unbolt.co/singup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          phone: phoneNumber,
-          isRecruiter: 0,
+          number: formattedPhoneNumber, // Use the formatted phone number
+          isRecruiter: 1,
         }),
       });
       console.log("OTP GET");
       if (response.ok) {
         setMessage("OTP sent successfully!");
-        navigate("/verify");
+        setPhoneNumber("");
+        localStorage.setItem("number", JSON.stringify(formattedPhoneNumber));
+        const u = localStorage.getItem("number");
+        console.log(u);
+        navigate("/verifications");
       } else {
         setMessage("Error sending OTP. Please try again later.");
       }
@@ -54,9 +87,9 @@ const Join = () => {
     
 
     <div className="relative lg:bg-[url(/src/bgimages/jebg.png)] bg-contain	 bg-center bg-no-repeat">
-      <div className="lg:mx-[40px] md:mx-[10px] mx-[10px] lg:mt-[100px] lg:h-[600px]">
+      <div className="lg:mx-[40px] md:mx-[10px] mx-[10px] lg:mt-[100px] lg:h-[550px]">
         <div className="flex justify-center 	 ">
-          <div className=" lg:mt-[150px] md:mt-[50px]">
+          <div className=" lg:mt-[20px] md:mt-[50px]">
             <div className="lg:w-[536px] lg:h-[272px] w-[370px] md:w-[470px] rounded rounded-[10px] shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
             <div className="py-7">
             <div>
